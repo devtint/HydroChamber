@@ -519,6 +519,108 @@
     }
     .mobile-sticky-btn:active { transform: scale(0.96); }
 
+    /* HydroBot AI Floating Chatbot Widget */
+    .chat-widget-launcher {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 1020;
+      display: flex; align-items: center; gap: 0.65rem; cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .chat-widget-launcher { bottom: 5rem; right: 1.25rem; }
+    }
+    .chat-launcher-badge {
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800;
+      background: var(--header-bg); backdrop-filter: blur(15px); color: var(--text-main);
+      padding: 0.4rem 0.85rem; border-radius: 99px; border: 1px solid var(--bg-card-border);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); transition: transform 0.2s, opacity 0.2s;
+    }
+    .chat-launcher-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border: 1px solid var(--bg-card-border); display: flex; align-items: center;
+      justify-content: center; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+    }
+    .chat-launcher-btn:hover { transform: scale(1.08); }
+    .chat-launcher-btn:active { transform: scale(0.95); }
+
+    /* HydroBot Chat Window Modal */
+    .chat-window {
+      position: fixed; bottom: 6rem; right: 2rem; width: 380px; max-width: calc(100vw - 2.5rem);
+      height: 520px; max-height: calc(100vh - 8rem); background: var(--header-bg);
+      backdrop-filter: blur(30px) saturate(190%); border: 1px solid var(--bg-card-border);
+      border-radius: 28px; z-index: 1030; display: none; flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22); overflow: hidden;
+      animation: chatSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (max-width: 768px) {
+      .chat-window { bottom: 4.5rem; right: 1.25rem; left: 1.25rem; width: auto; max-width: none; height: 480px; }
+    }
+    .chat-window.active { display: flex; }
+
+    @keyframes chatSlideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .chat-header {
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--bg-card-border);
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(128, 128, 128, 0.04);
+    }
+    .chat-header-info { display: flex; align-items: center; gap: 0.65rem; }
+    .chat-avatar {
+      width: 34px; height: 34px; border-radius: 50%; background: var(--btn-primary-bg);
+      color: var(--btn-primary-text); display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.8rem; font-family: var(--font-heading); flex-shrink: 0;
+    }
+    .chat-title { font-family: var(--font-heading); font-size: 1rem; font-weight: 800; color: var(--text-main); }
+    .chat-status { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; }
+    .chat-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; }
+
+    .chat-messages {
+      flex: 1; padding: 1.25rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chat-msg {
+      max-width: 88%; padding: 0.75rem 1rem; border-radius: 18px; font-size: 0.88rem; line-height: 1.5;
+      word-wrap: break-word;
+    }
+    .chat-msg.bot {
+      align-self: flex-start; background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      color: var(--text-main); border-bottom-left-radius: 4px;
+    }
+    .chat-msg.user {
+      align-self: flex-end; background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border-bottom-right-radius: 4px; font-weight: 600;
+    }
+
+    .chat-quick-chips {
+      display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;
+    }
+    .chat-chip {
+      font-family: var(--font-mono); font-size: 0.72rem; padding: 0.35rem 0.65rem; border-radius: 99px;
+      background: rgba(128, 128, 128, 0.08); border: 1px solid var(--bg-card-border);
+      color: var(--text-main); cursor: pointer; transition: all 0.2s;
+    }
+    .chat-chip:hover { background: var(--btn-primary-bg); color: var(--btn-primary-text); border-color: var(--btn-primary-bg); }
+
+    .chat-input-area {
+      padding: 0.85rem 1rem; border-top: 1px solid var(--bg-card-border);
+      display: flex; align-items: center; gap: 0.5rem; background: rgba(128, 128, 128, 0.04);
+    }
+    .chat-input-field {
+      flex: 1; padding: 0.65rem 0.9rem; border-radius: 99px; border: 1px solid var(--bg-card-border);
+      background: var(--bg-card); color: var(--text-main); font-family: var(--font-main);
+      font-size: 16px; outline: none; transition: border-color 0.2s;
+    }
+    .chat-input-field:focus { border-color: var(--bg-card-border-active); }
+    .chat-send-btn {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--btn-primary-bg);
+      color: var(--btn-primary-text); border: none; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.2s;
+    }
+    .chat-send-btn:active { transform: scale(0.92); }
+
     /* Responsive Mobile-First Media Queries */
     @media (max-width: 1024px) {
       header { padding: 0.9rem 1.25rem; }
@@ -732,6 +834,51 @@
       <div class="mobile-sticky-price">฿690 <span class="mobile-sticky-sub">(Student ฿590)</span></div>
     </div>
     <button class="mobile-sticky-btn" onclick="openProposalModal()">Pricing Matrix</button>
+  </div>
+
+  <!-- HydroBot AI Assistant Floating Launcher & Window -->
+  <div class="chat-widget-launcher" id="chatLauncher" onclick="toggleChatWindow()">
+    <span class="chat-launcher-badge">Ask HydroBot ✦</span>
+    <button class="chat-launcher-btn" aria-label="Open HydroBot Assistant">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">HB</div>
+        <div>
+          <div class="chat-title">HydroBot AI</div>
+          <div class="chat-status"><span class="chat-status-dot"></span> Online ✦ Instant 0ms</div>
+        </div>
+      </div>
+      <button class="modal-close-btn" onclick="toggleChatWindow()">&times;</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        Sawasdee krub! I am <strong>HydroBot</strong>, your 100% free HydroChamber assistant. Ask me about student deals, pricing, MagSafe specs, laser engraving, or delivery!
+        <div class="chat-quick-chips">
+          <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+          <button class="chat-chip" onclick="sendQuickChat('Try Laser Engraving')">Laser Engraving</button>
+          <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+          <button class="chat-chip" onclick="sendQuickChat('Electrolyte Refills')">Refill Packs</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" class="chat-input-field" id="chatInput" placeholder="Ask HydroBot anything..." onkeydown="handleChatKeyDown(event)">
+      <button class="chat-send-btn" onclick="submitChatMessage()" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- Hero Section -->
@@ -1294,6 +1441,157 @@
       const mobileDrawer = document.getElementById('mobileNavDrawer');
       if (mobileDrawer) mobileDrawer.classList.remove('active');
       document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    // --- HYDROBOT CLIENT-SIDE AI ENGINE ---
+    function toggleChatWindow() {
+      const win = document.getElementById('chatWindow');
+      win.classList.toggle('active');
+      if (win.classList.contains('active')) {
+        document.getElementById('chatInput').focus();
+      }
+    }
+
+    function handleChatKeyDown(e) {
+      if (e.key === 'Enter') submitChatMessage();
+    }
+
+    function sendQuickChat(text) {
+      const input = document.getElementById('chatInput');
+      input.value = text;
+      submitChatMessage();
+    }
+
+    function submitChatMessage() {
+      const input = document.getElementById('chatInput');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendChatMessage('user', query);
+      input.value = '';
+
+      const typingId = appendTypingIndicator();
+
+      setTimeout(() => {
+        removeTypingIndicator(typingId);
+        const res = processHydroBotQuery(query);
+        appendChatMessage('bot', res.text, res.actionHTML);
+        if (res.trigger) res.trigger();
+      }, 350);
+    }
+
+    function appendChatMessage(sender, text, extraHTML = '') {
+      const container = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = `chat-msg ${sender}`;
+      div.innerHTML = text + (extraHTML ? `<div style="margin-top:0.4rem;">${extraHTML}</div>` : '');
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendTypingIndicator() {
+      const container = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = 'chat-msg bot';
+      div.id = 'typingIndicator';
+      div.style.fontStyle = 'italic';
+      div.style.color = 'var(--text-muted)';
+      div.innerHTML = 'HydroBot is typing...';
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      return 'typingIndicator';
+    }
+
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function processHydroBotQuery(rawQuery) {
+      const q = rawQuery.toLowerCase();
+
+      // Intent 1: Pricing & Student Offer
+      if (q.includes('price') || q.includes('cost') || q.includes('student') || q.includes('discount') || q.includes('590') || q.includes('690') || q.includes('799') || q.includes('how much') || q.includes('offer')) {
+        return {
+          text: "HydroChamber offers 3 fixed tiers:<br>• <strong>Student Starter Edition</strong>: ฿590<br>• <strong>Pro Tech Edition</strong>: ฿690 (Includes FREE Laser Engraving)<br>• <strong>Full Ecosystem Bundle</strong>: ฿799 (Includes 10x Refills + Carabiner Cap)",
+          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Full Pricing Matrix</button>`,
+          trigger: () => { openProposalModal(); }
+        };
+      }
+
+      // Intent 2: Laser Personalization
+      if (q.includes('laser') || q.includes('engrav') || q.includes('name') || q.includes('etch') || q.includes('custom') || q.includes('text')) {
+        return {
+          text: "Industrial fiber laser engraving etches your name directly through powder coat into raw SUS304 steel. Dishwasher safe & never peels!",
+          actionHTML: `<button class="chat-chip" onclick="applyLaserPreset('ALEX')">Try Preview 'ALEX'</button>`,
+          trigger: () => {
+            document.getElementById('laserStudioInput').scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+      }
+
+      // Intent 3: MagSafe & Phone Stand
+      if (q.includes('magsafe') || q.includes('phone') || q.includes('stand') || q.includes('magnet') || q.includes('iphone') || q.includes('hold')) {
+        return {
+          text: "The top cap features an integrated 58mm MagSafe ring with 18 N52 Neodymium magnets (12 Newtons force). Holds any iPhone or magnetic case at 360° for filming or watching lectures!",
+          actionHTML: `<button class="chat-chip" onclick="document.getElementById('magsafe').scrollIntoView({behavior:'smooth'})">View MagSafe Section</button>`
+        };
+      }
+
+      // Intent 4: Colors
+      if (q.includes('color') || q.includes('matcha') || q.includes('oat') || q.includes('lavender') || q.includes('charcoal')) {
+        let selectedColor = 'matcha';
+        let colorName = 'Matcha Sage';
+        let imgPath = 'assets/bottle_matcha.png';
+
+        if (q.includes('oat')) { selectedColor = 'oatmilk'; colorName = 'Oat Milk Cream'; imgPath = 'assets/bottle_oatmilk.png'; }
+        else if (q.includes('lavender')) { selectedColor = 'lavender'; colorName = 'Lavender Haze'; imgPath = 'assets/bottle_lavender.png'; }
+        else if (q.includes('charcoal')) { selectedColor = 'charcoal'; colorName = 'Slate Charcoal'; imgPath = 'assets/bottle_charcoal.png'; }
+
+        return {
+          text: `HydroChamber comes in 4 matte colorways. Switching preview to <strong>${colorName}</strong>!`,
+          trigger: () => {
+            switchShowcaseColor(selectedColor, colorName, imgPath, null);
+            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+      }
+
+      // Intent 5: Refills & Electrolytes
+      if (q.includes('refill') || q.includes('electrolyte') || q.includes('pack') || q.includes('powder') || q.includes('drink')) {
+        return {
+          text: "10x Electrolyte & L-Theanine stick packs (฿169) are engineered for silent honeycomb grid dissolution. Tap NFC on bottle base to reorder in 1 second via LINE OA!",
+          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Refill Pricing</button>`
+        };
+      }
+
+      // Intent 6: Washing & Dishwasher & Materials
+      if (q.includes('wash') || q.includes('clean') || q.includes('dishwasher') || q.includes('steel') || q.includes('fda') || q.includes('material')) {
+        return {
+          text: "HydroChamber is 100% dishwasher safe! Crafted from food-grade SUS304 stainless steel and BPA-free Tritan plastic (Thai FDA Notification No. 435 compliant).",
+          actionHTML: `<button class="chat-chip" onclick="openTermsModal()">View FDA Safety Certs</button>`
+        };
+      }
+
+      // Intent 7: Contact / Support / Order
+      if (q.includes('contact') || q.includes('support') || q.includes('line') || q.includes('help') || q.includes('buy') || q.includes('order')) {
+        return {
+          text: "You can reach customer support or place orders directly via our LINE OA & Customer Care desk!",
+          actionHTML: `<button class="chat-chip" onclick="openContactModal()">Open Customer Support Desk</button>`,
+          trigger: () => { openContactModal(); }
+        };
+      }
+
+      // Fallback
+      return {
+        text: "I am specialized in HydroChamber product specs, student prices (฿590-฿799), MagSafe stands, and laser engraving. For custom university orders or questions, tap below to contact support!",
+        actionHTML: `
+          <div class="chat-quick-chips">
+            <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
+            <button class="chat-chip" onclick="openContactModal()">Customer Care</button>
+          </div>
+        `
+      };
     }
 
     window.addEventListener('DOMContentLoaded', () => {
