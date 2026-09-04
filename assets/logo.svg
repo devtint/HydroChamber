@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="32" height="32" fill="none">
+  <!-- Outer MagSafe Ring -->
+  <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="2.5" opacity="0.9" />
+  <circle cx="24" cy="24" r="17" stroke="currentColor" stroke-dasharray="2 3" stroke-width="1.5" opacity="0.5" />
+  
+  <!-- Hydration Drop & Chamber Capsule -->
+  <path d="M24 10C24 10 14 21.5 14 27.5C14 33.02 18.48 37.5 24 37.5C29.52 37.5 34 33.02 34 27.5C34 21.5 24 10 24 10Z" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  
+  <!-- Honeycomb Vortex Core Line -->
+  <path d="M24 16V31M19 26L24 31L29 26" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
