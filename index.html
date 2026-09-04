@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HydroChamber | Phygital Smart Hydration & Articulating Stand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Default: Clean High-Contrast Light Mode */
+    :root {
+      --bg-dark: #F8F9FA;
+      --bg-surface: #F1F3F5;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-card-hover: #FFFFFF;
+      --bg-card-border: rgba(0, 0, 0, 0.09);
+      --bg-card-border-active: #000000;
+      --text-main: #1D1D1F;
+      --text-muted: #6E6E73;
+      --text-dim: #86868B;
+      --btn-primary-bg: #000000;
+      --btn-primary-text: #FFFFFF;
+      --header-bg: rgba(248, 249, 250, 0.88);
+      --modal-bg: #FFFFFF;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* Dark Theme Overrides */
+    body.theme-dark {
+      --bg-dark: #000000;
+      --bg-surface: #0A0A0C;
+      --bg-card: rgba(18, 18, 22, 0.7);
+      --bg-card-hover: rgba(28, 28, 34, 0.85);
+      --bg-card-border: rgba(255, 255, 255, 0.1);
+      --bg-card-border-active: #FFFFFF;
+      --text-main: #F5F5F7;
+      --text-muted: #86868B;
+      --text-dim: #515154;
+      --btn-primary-bg: #FFFFFF;
+      --btn-primary-text: #000000;
+      --header-bg: rgba(0, 0, 0, 0.85);
+      --modal-bg: #0D0D11;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background-color: var(--bg-dark); 
+      color: var(--text-main); 
+      font-family: var(--font-main); 
+      line-height: 1.6; 
+      overflow-x: hidden; 
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .noise-bg {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: -1; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .spotlight {
+      position: absolute; top: 8%; left: 25%; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
+      pointer-events: none; z-index: -1; filter: blur(80px);
+    }
+    body.theme-dark .spotlight {
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      backdrop-filter: saturate(180%) blur(20px); 
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--bg-card-border);
+      padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center;
+      transition: all 0.3s ease;
+    }
+    .brand-logo { 
+      font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; 
+      color: var(--text-main); letter-spacing: -0.5px; display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    }
+    .brand-logo span { color: var(--text-main); }
+    .brand-pill {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+      padding: 0.25rem 0.65rem; background: rgba(128, 128, 128, 0.12);
+      color: var(--text-main); border: 1px solid var(--bg-card-border);
+      border-radius: 99px; letter-spacing: 0.5px; cursor: pointer;
+      transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.3rem;
+      white-space: nowrap; text-decoration: none;
+    }
+    .brand-pill:hover {
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border-color: var(--btn-primary-bg); transform: scale(1.04);
+    }
+    
+    nav { display: flex; align-items: center; gap: 1.5rem; margin-left: 1rem; }
+    nav a { 
+      color: var(--text-muted); text-decoration: none; font-size: 0.86rem; 
+      font-weight: 600; transition: color 0.2s; white-space: nowrap;
+    }
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions { display: flex; align-items: center; gap: 0.85rem; flex-shrink: 0; }
+
+    /* Universal SVG Theme Icon Toggle Button */
+    .btn-theme-toggle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(128, 128, 128, 0.1); border: 1px solid var(--bg-card-border);
+      color: var(--text-main); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: all 0.25s ease;
+    }
+    .btn-theme-toggle:hover {
+      background: rgba(128, 128, 128, 0.2); border-color: var(--bg-card-border-active);
+      transform: rotate(15deg);
+    }
+    .theme-icon-sun, .theme-icon-moon { transition: transform 0.3s ease, opacity 0.3s ease; }
+    .theme-icon-moon { display: block; }
+    .theme-icon-sun { display: none; }
+    body.theme-dark .theme-icon-moon { display: none; }
+    body.theme-dark .theme-icon-sun { display: block; }
+
+    .btn-contact {
+      padding: 0.5rem 1.25rem; background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border-radius: 99px; font-weight: 700; font-size: 0.85rem; border: none;
+      cursor: pointer; text-decoration: none; transition: all 0.2s ease;
+      display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+    }
+    .btn-contact:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* Hero Section */
+    .hero-section {
+      min-height: 90vh; padding-top: 8.5rem; padding-bottom: 5rem;
+      max-width: 1440px; margin: 0 auto; padding-left: 2.5rem; padding-right: 2.5rem;
+      display: grid; grid-template-columns: 1.05fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-content { display: flex; flex-direction: column; gap: 1.5rem; }
+    .hero-tag {
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .hero-tag::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--text-main);
+    }
+    .hero-title {
+      font-family: var(--font-heading); font-size: 3.5rem; font-weight: 800;
+      line-height: 1.1; letter-spacing: -1.5px; color: var(--text-main);
+    }
+    .hero-title span { color: var(--text-muted); font-weight: 600; }
+    .hero-desc {
+      color: var(--text-muted); font-size: 1.1rem; line-height: 1.65; max-width: 560px;
+    }
+    .hero-stats-row {
+      display: flex; gap: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--bg-card-border);
+      margin-top: 0.5rem;
+    }
+    .hero-stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .hero-stat-val { font-family: var(--font-heading); font-size: 1.55rem; font-weight: 800; color: var(--text-main); }
+    .hero-stat-lbl { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+    /* Interactive 360 Showcase Canvas */
+    .showcase-stage-card {
+      position: relative; border-radius: 32px; overflow: hidden;
+      background: radial-gradient(circle at 50% 45%, rgba(128, 128, 128, 0.08) 0%, var(--bg-surface) 75%);
+      border: 1px solid var(--bg-card-border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 560px; padding: 2.5rem 2rem; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.06);
+    }
+    body.theme-dark .showcase-stage-card { box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4); }
+    .showcase-img {
+      max-width: 85%; max-height: 450px; object-fit: contain;
+      filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.2));
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.theme-dark .showcase-img { filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.6)); }
+
+    /* Laser Engraving Visual Overlay */
+    .showcase-laser-overlay {
+      position: absolute; bottom: 30%; left: 50%;
+      transform: translateX(-50%) rotate(-90deg); transform-origin: center center;
+      font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--text-main);
+      opacity: 0.85; pointer-events: none; display: none; white-space: nowrap; user-select: none;
+    }
+
+    /* Swatch Bar Below Showcase */
+    .swatch-bar {
+      display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .swatch-btn {
+      padding: 0.55rem 1.2rem; background: rgba(128, 128, 128, 0.08);
+      border: 1px solid var(--bg-card-border); border-radius: 99px;
+      color: var(--text-muted); font-size: 0.84rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;
+    }
+    .swatch-btn:hover { color: var(--text-main); border-color: var(--bg-card-border-active); }
+    .swatch-btn.active {
+      background: var(--btn-primary-bg); border-color: var(--btn-primary-bg); color: var(--btn-primary-text); font-weight: 700;
+    }
+    .swatch-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    /* General Section Layout */
+    section {
+      padding: 7.5rem 2.5rem; max-width: 1400px; margin: 0 auto;
+      border-top: 1px solid var(--bg-card-border);
+    }
+    .section-header { text-align: center; max-width: 820px; margin: 0 auto 4.5rem auto; }
+    .section-tag {
+      font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 0.8rem; display: block;
+    }
+    .section-title {
+      font-family: var(--font-heading); font-size: 2.8rem; font-weight: 800;
+      letter-spacing: -1px; margin-bottom: 1.2rem; color: var(--text-main);
+    }
+    .section-desc { color: var(--text-muted); font-size: 1.1rem; line-height: 1.65; }
+
+    /* Background & Origin Section Cards */
+    .bg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .bg-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 24px; padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 1rem;
+      transition: transform 0.25s ease, background 0.25s;
+    }
+    .bg-card:hover { transform: translateY(-4px); background: var(--bg-card-hover); border-color: var(--bg-card-border-active); }
+    .bg-card-number {
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; color: var(--text-muted);
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .bg-card h3 { font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; color: var(--text-main); }
+    .bg-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Reasoning Grid Section */
+    .reasoning-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .reasoning-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 24px; padding: 2.5rem 2.2rem; display: flex; flex-direction: column; gap: 1rem;
+      transition: transform 0.25s ease;
+    }
+    .reasoning-card:hover { transform: translateY(-4px); border-color: var(--bg-card-border-active); }
+    .reasoning-pill {
+      font-family: var(--font-mono); font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(128, 128, 128, 0.12);
+      color: var(--text-main); border: 1px solid var(--bg-card-border); width: max-content;
+    }
+    .reasoning-card h3 { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--text-main); }
+    .reasoning-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* Product Pricing Matrix Section */
+    .pricing-table-frame {
+      background: var(--bg-card); border: 1.5px solid var(--bg-card-border);
+      border-radius: 28px; overflow: hidden; margin-bottom: 3rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
+    }
+    .pricing-table {
+      width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;
+    }
+    .pricing-table th {
+      background: rgba(128, 128, 128, 0.08); font-family: var(--font-mono);
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-muted); padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--bg-card-border);
+    }
+    .pricing-table td {
+      padding: 1.3rem 1.5rem; border-bottom: 1px solid var(--bg-card-border); color: var(--text-main);
+    }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table tr:hover td { background: rgba(128, 128, 128, 0.04); }
+    .sku-tag { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+    .price-highlight { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+    .feature-badge {
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800;
+      padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(128, 128, 128, 0.12);
+      border: 1px solid var(--bg-card-border); color: var(--text-main);
+    }
+
+    /* Customer Guarantee Highlights */
+    .highlights-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .highlight-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 20px; padding: 1.8rem 1.4rem; text-align: center;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .highlight-val { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
+    .highlight-lbl { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+    /* MagSafe Articulation Showcase Section */
+    .magsafe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .magsafe-card {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 24px; padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 1.2rem;
+      border-top: 3px solid var(--bg-card-border-active); transition: transform 0.25s ease, background 0.25s;
+    }
+    .magsafe-card:hover { transform: translateY(-4px); background: var(--bg-card-hover); }
+    .magsafe-angle-badge {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800;
+      background: rgba(128, 128, 128, 0.12); color: var(--text-main);
+      padding: 0.25rem 0.65rem; border-radius: 6px; width: max-content; letter-spacing: 1px;
+    }
+    .magsafe-card h3 { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--text-main); }
+    .magsafe-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Full-Width Showcase Banner */
+    .lineup-banner {
+      padding: 6rem 2.5rem; text-align: center; max-width: 1400px; margin: 0 auto;
+    }
+    .lineup-frame {
+      background: radial-gradient(ellipse at 50% 90%, rgba(128, 128, 128, 0.08) 0%, transparent 70%);
+      padding: 3rem 2rem; border-radius: 36px; border: 1px solid var(--bg-card-border); margin-top: 2.5rem;
+    }
+    .lineup-frame img {
+      width: 100%; max-width: 950px; object-fit: contain;
+      filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.25)); transition: transform 0.4s ease;
+    }
+    .lineup-frame:hover img { transform: scale(1.02); }
+
+    /* Laser Personalization Studio Section */
+    .laser-studio-box {
+      background: var(--bg-card); border: 1.5px solid var(--bg-card-border);
+      border-radius: 28px; padding: 3rem; max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: stretch;
+    }
+    .laser-studio-info h3 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.8rem; }
+    .laser-studio-info p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+    .laser-input-field {
+      width: 100%; padding: 0.95rem 1.1rem; border: 1.5px solid var(--bg-card-border);
+      border-radius: 12px; background: rgba(128, 128, 128, 0.08); color: var(--text-main);
+      font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600;
+      letter-spacing: 2px; outline: none; transition: border-color 0.2s; margin-bottom: 1rem;
+    }
+    .laser-input-field:focus { border-color: var(--bg-card-border-active); }
+    .preset-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .preset-chips span { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono); }
+    .chip {
+      padding: 0.25rem 0.65rem; border-radius: 6px; background: rgba(128, 128, 128, 0.08);
+      border: 1px solid var(--bg-card-border); font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    }
+    .chip:hover { color: var(--btn-primary-text); background: var(--btn-primary-bg); border-color: var(--btn-primary-bg); }
+
+    /* Parts Grid Section */
+    .parts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .part-card {
+      background: var(--bg-card); border-radius: 24px; overflow: hidden;
+      display: flex; flex-direction: column; border: 1px solid var(--bg-card-border);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+    }
+    .part-card:hover { transform: translateY(-5px); border-color: var(--bg-card-border-active); }
+    .part-img-box {
+      padding: 2.5rem; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle at center, rgba(128, 128, 128, 0.08) 0%, var(--bg-surface) 80%);
+      border-bottom: 1px solid var(--bg-card-border); min-height: 260px;
+    }
+    .part-img-box img {
+      width: 100%; height: 210px; object-fit: contain;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.theme-dark .part-img-box img { filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5)); }
+    .part-card:hover .part-img-box img { transform: scale(1.08); }
+    .part-meta { padding: 2rem; display: flex; flex-direction: column; gap: 0.6rem; flex-grow: 1; }
+    .part-meta-tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
+    .part-meta h3 { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; color: var(--text-main); }
+    .part-meta p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* NFC Phygital Hydration Sync Showcase */
+    .nfc-showcase-box {
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 32px; padding: 4rem 3rem; display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; max-width: 1280px; margin: 0 auto;
+    }
+    .nfc-text h3 { font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; }
+    .nfc-text p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1.8rem; }
+    .nfc-badge-list { display: flex; flex-direction: column; gap: 1rem; }
+    .nfc-badge-item { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+    .nfc-badge-icon {
+      width: 28px; height: 28px; border-radius: 50%; background: rgba(128, 128, 128, 0.12);
+      display: flex; align-items: center; justify-content: center; border: 1px solid var(--bg-card-border);
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800;
+    }
+    .nfc-demo-card {
+      background: var(--bg-surface); border: 1px solid var(--bg-card-border);
+      border-radius: 24px; padding: 2.5rem; text-align: center; display: flex; flex-direction: column; gap: 1.2rem;
+      align-items: center; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Specs & Compliance Grid */
+    .specs-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;
+      padding: 4rem 2rem; border-top: 1px solid var(--bg-card-border); border-bottom: 1px solid var(--bg-card-border);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .spec-val { font-family: var(--font-heading); font-size: 2.8rem; font-weight: 800; color: var(--text-main); line-height: 1; margin-bottom: 0.5rem; }
+    .spec-val span { font-size: 1.2rem; color: var(--text-muted); }
+    .spec-lbl { font-size: 0.88rem; color: var(--text-muted); font-weight: 500; }
+
+    /* Modals for Policy / Compliance info */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+      z-index: 250; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+    .modal-card {
+      background: var(--modal-bg); border: 1px solid var(--bg-card-border); border-radius: 24px;
+      padding: 2.5rem; width: 580px; max-width: 100%; max-height: 90vh; overflow-y: auto; position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    }
+    .modal-close-btn {
+      position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem;
+      border: none; background: none; color: var(--text-muted); cursor: pointer; line-height: 1;
+    }
+    .modal-close-btn:hover { color: var(--text-main); }
+    .modal-title { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
+    .modal-sub { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+    .policy-content { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; display: flex; flex-direction: column; gap: 1.2rem; }
+    .policy-content h4 { font-size: 1rem; color: var(--text-main); font-weight: 700; margin-bottom: 0.2rem; }
+
+    .drawer-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
+      z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .drawer-overlay.active { opacity: 1; pointer-events: all; }
+
+    /* Footer */
+    footer { 
+      border-top: 1px solid var(--bg-card-border); padding: 5rem 2.5rem 3rem; 
+      background: var(--bg-surface);
+    }
+    .footer-grid {
+      max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem; margin-bottom: 4rem;
+    }
+    .footer-brand h3 { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); }
+    .footer-brand p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; max-width: 340px; }
+    .footer-col h4 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; cursor: pointer; }
+    .footer-col a:hover { color: var(--text-main); }
+    .footer-bottom {
+      max-width: 1400px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--bg-card-border);
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: var(--text-dim);
+    }
+
+    /* Scroll Animations */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      header { padding: 1rem 1.5rem; }
+      nav { display: none; }
+      .hero-section { grid-template-columns: 1fr; gap: 3.5rem; padding-top: 7rem; text-align: center; }
+      .hero-desc { margin: 0 auto; }
+      .hero-stats-row { justify-content: center; }
+      .bg-grid, .magsafe-grid, .parts-grid { grid-template-columns: repeat(2, 1fr); }
+      .reasoning-grid { grid-template-columns: 1fr; }
+      .laser-studio-box, .nfc-showcase-box { grid-template-columns: 1fr; gap: 2.5rem; }
+      .specs-grid, .highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      section { padding: 5rem 1.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.6rem; }
+      .showcase-stage-card { min-height: 420px; padding: 2rem 1rem; }
+      .showcase-img { max-height: 340px; }
+      .bg-grid, .magsafe-grid, .parts-grid { grid-template-columns: 1fr; }
+      .pricing-table th, .pricing-table td { padding: 0.9rem 0.8rem; font-size: 0.8rem; }
+      .specs-grid, .highlights-grid { grid-template-columns: 1fr 1fr; padding: 2.5rem 1rem; gap: 1.2rem; }
+      .spec-val { font-size: 2.2rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .section-title { font-size: 2.2rem; }
+      .laser-studio-box { padding: 2rem 1.5rem; }
+      .nfc-showcase-box { padding: 2.5rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .specs-grid, .highlights-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.1rem; }
+      .section-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="noise-bg"></div>
+  <div class="spotlight"></div>
+
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeAllDrawers()"></div>
+
+  <!-- Proposal Overview Modal -->
+  <div class="modal-overlay" id="proposalModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeAllDrawers()">&times;</button>
+      <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+        <span style="font-family:var(--font-mono); font-size:0.75rem; font-weight:800; background:var(--btn-primary-bg); color:var(--btn-primary-text); padding:0.2rem 0.6rem; border-radius:4px; letter-spacing:1px;">PRODUCT LINEUP</span>
+        <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">KBU DIGITAL BUSINESS 2026</span>
+      </div>
+      <h3 class="modal-title">HydroChamber Product Pricing</h3>
+      <p class="modal-sub">Kasem Bundit University (KBU) Digital Business and Application Project.</p>
+
+      <div class="policy-content">
+        <div>
+          <h4>Phygital Smart Hydration Platform</h4>
+          <p>HydroChamber merges 750ml SUS304 vacuum insulation with an articulating 12N MagSafe phone stand and passive NFC hydration tracking into a single daily object for university students and active professionals.</p>
+        </div>
+        <div>
+          <h4>Fixed Product Pricing & Editions</h4>
+          <p>Student Campus Edition: <strong>฿590</strong> | Flagship HydroChamber Pro: <strong>฿690</strong> | Phygital Starter Bundle: <strong>฿799</strong><br>Clean Cheat Focus Pods (10x Pack): <strong>฿169</strong> | Replacement MagSafe Lid Set: <strong>฿220</strong></p>
+        </div>
+        <div>
+          <h4>SheerID Student Verification</h4>
+          <p>Subsidized student pricing (฿590) is available to all active college and university students in Thailand via instant SheerID identity verification.</p>
+        </div>
+        <div>
+          <h4>Comprehensive Hardware Guarantee</h4>
+          <p>Includes 30-Day Defect Replacement Guarantee and 1-Year Limited Hardware Warranty on all flagship units with nationwide express shipping.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact / Support Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeAllDrawers()">&times;</button>
+      <h3 class="modal-title">Customer Support & Assistance</h3>
+      <p class="modal-sub">Explore HydroChamber product inquiries, student programs, and hardware assistance.</p>
+
+      <div class="policy-content">
+        <div>
+          <h4>Direct Support Desk</h4>
+          <p>Our dedicated support team responds within 24 hours for all order inquiries, student verification questions, and warranty claims.</p>
+        </div>
+        <div>
+          <h4>Fulfillment & Guarantee Support</h4>
+          <p>Includes 30-Day Defect Replacement Guarantee and 1-Year Limited Hardware Warranty on all standard flagship units.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms & Technical Standards Modal -->
+  <div class="modal-overlay" id="termsModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeAllDrawers()">&times;</button>
+      <h3 class="modal-title">Technical & Material Standards</h3>
+      <p class="modal-sub">Certified materials and regulatory compliance for HydroChamber 2026.</p>
+
+      <div class="policy-content">
+        <div>
+          <h4>1. Thai FDA Food Contact Compliance</h4>
+          <p>All bottle contact surfaces comply with Thai FDA Notification No. 435 (B.E. 2565) for Food Contact Metals & Plastics. Certified 100% BPA-free and phthalate-free.</p>
+        </div>
+        <div>
+          <h4>2. NBTC RFID Electromagnetic Safety</h4>
+          <p>Passive 13.56 MHz NXP NTAG213 NFC tag complies with NBTC SDoC Class B RFID electromagnetic safety standards. Insulated by 0.2mm anti-metal sintered ferrite barrier.</p>
+        </div>
+        <div>
+          <h4>3. Industrial Laser Fiber Etching</h4>
+          <p>Laser engraving permanently exposes the raw SUS304 stainless steel body. Dishwasher safe, non-toxic, and resistant to scratching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="#hero" class="brand-logo">
+      Hydro<span>Chamber</span>
+      <span class="brand-pill" onclick="openProposalModal(); event.preventDefault();" title="Click to view Product Pricing Summary">Proposal 2026</span>
+    </a>
+    <nav>
+      <a href="#hero">Overview</a>
+      <a href="#background">Background</a>
+      <a href="#reasoning">Reasoning</a>
+      <a href="#pricing">Pricing Guide</a>
+      <a href="#magsafe">MagSafe Stand</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#phygital">NFC Sync</a>
+    </nav>
+    <div class="header-actions">
+      <!-- Universal SVG Icon Theme Switcher -->
+      <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Light and Dark Mode" title="Toggle Light / Dark Mode">
+        <svg class="theme-icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="theme-icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+
+      <button class="btn-contact" onclick="openContactModal()">Customer Care</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-section fade-in" id="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Phygital Smart Hydration Platform</div>
+      <h1 class="hero-title">Your bottle.<br>Your phone stand.<br><span>One object.</span></h1>
+      <p class="hero-desc">
+        HydroChamber fuses 750ml SUS304 thermal insulation with an articulating 12N MagSafe phone stand and passive NFC hydration logging into a single daily object.
+      </p>
+
+      <div class="swatch-bar">
+        <button class="swatch-btn active" onclick="switchShowcaseColor('matcha', 'Matcha Sage', 'assets/bottle_matcha.png', this)">
+          <span class="swatch-dot" style="background:#849B89;"></span> Matcha Sage
+        </button>
+        <button class="swatch-btn" onclick="switchShowcaseColor('oatmilk', 'Oat Milk Cream', 'assets/bottle_oatmilk.png', this)">
+          <span class="swatch-dot" style="background:#E6DCCF;"></span> Oat Milk
+        </button>
+        <button class="swatch-btn" onclick="switchShowcaseColor('lavender', 'Lavender Haze', 'assets/bottle_lavender.png', this)">
+          <span class="swatch-dot" style="background:#B8B4D4;"></span> Lavender
+        </button>
+        <button class="swatch-btn" onclick="switchShowcaseColor('charcoal', 'Slate Charcoal', 'assets/bottle_charcoal.png', this)">
+          <span class="swatch-dot" style="background:#2C3038;"></span> Slate Charcoal
+        </button>
+      </div>
+
+      <div class="hero-stats-row">
+        <div class="hero-stat-item">
+          <div class="hero-stat-val">฿590 - ฿799</div>
+          <div class="hero-stat-lbl">Product SKUs</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-val">12N</div>
+          <div class="hero-stat-lbl">MagSafe Hold Force</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-val">SheerID</div>
+          <div class="hero-stat-lbl">Student Discount Verified</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Interactive 360 Showcase Canvas -->
+    <div class="showcase-stage-card">
+      <img src="assets/bottle_matcha.png" alt="HydroChamber Flagship Display" class="showcase-img" id="showcaseImg">
+      <div class="showcase-laser-overlay" id="showcaseLaserOverlay">ALEX</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: PROBLEM BACKGROUND & BRAND ORIGIN -->
+  <section id="background" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Market Background & Brand Origin</span>
+      <h2 class="section-title">Why HydroChamber Was Created.</h2>
+      <p class="section-desc">
+        Developed under Kasem Bundit University (KBU) Digital Business and Application Project, HydroChamber solves key everyday pain points for Thai university students and active young professionals.
+      </p>
+    </div>
+    <div class="bg-grid">
+      
+      <div class="bg-card">
+        <div class="bg-card-number">BACKGROUND 01 • DESK CLUTTER</div>
+        <h3>The Multi-Object Struggle</h3>
+        <p>University students constantly carry separate drink bottles, phone tripod stands, power accessories, and focus supplements. Desks become overcrowded during lectures, study crunch weeks, and Zoom sessions.</p>
+      </div>
+
+      <div class="bg-card">
+        <div class="bg-card-number">BACKGROUND 02 • DIRECT QUALITY</div>
+        <h3>Direct-to-Consumer Excellence</h3>
+        <p>By offering HydroChamber directly through our web studio, we eliminate third-party reseller markups and deliver premium SUS304 insulated hardware at fair, student-accessible prices.</p>
+      </div>
+
+      <div class="bg-card">
+        <div class="bg-card-number">BACKGROUND 03 • STUDENT INCLUSIVITY</div>
+        <h3>Universal Campus Access</h3>
+        <p>Born at Kasem Bundit University (KBU), our mission enforces universal nationwide delivery without university gatekeeping or cluster restrictions. All verified students across Thailand access subsidized pricing.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: STRATEGIC BUSINESS REASONING -->
+  <section id="reasoning" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Strategic Product Reasoning</span>
+      <h2 class="section-title">The Rationale Behind Every Feature.</h2>
+      <p class="section-desc">
+        Every engineering specification, material choice, and digital integration directly supports customer utility, operational durability, and everyday convenience.
+      </p>
+    </div>
+    <div class="reasoning-grid">
+      
+      <div class="reasoning-card">
+        <span class="reasoning-pill">MECHANICAL REASONING</span>
+        <h3>Why an Articulating MagSafe Hinge Lid?</h3>
+        <p>Eliminates the need for separate phone stands or awkward bottle props. The internal stainless steel friction hinge holds any tilt from 15° to 90°, while 18 N52 magnets clamp phones securely in portrait for Zoom lectures and landscape for videos.</p>
+      </div>
+
+      <div class="reasoning-card">
+        <span class="reasoning-pill">VESSEL ARCHITECTURE</span>
+        <h3>Why 750ml SUS304 Steel + 60ml Storage Base?</h3>
+        <p>750ml provides optimal full-day hydration without adding excessive weight to campus backpacks. The 60ml twist-off dry storage base securely holds electrolyte powder stick packs, daily vitamins, or small essentials.</p>
+      </div>
+
+      <div class="reasoning-card">
+        <span class="reasoning-pill">DIGITAL ARCHITECTURE</span>
+        <h3>Why NXP NTAG213 NFC Smart Module?</h3>
+        <p>Custom mobile apps face high uninstall rates and store friction. By embedding an anti-metal NFC chip, tapping any phone instantly opens your personal hydration log—requiring zero app downloads or battery charging.</p>
+      </div>
+
+      <div class="reasoning-card">
+        <span class="reasoning-pill">PERSONALIZATION STRATEGY</span>
+        <h3>Why Free Fiber Laser Customization & SheerID?</h3>
+        <p>Industrial fiber laser etching permanently burns through the powder coat, creating viral student pride on TikTok/IG. SheerID integration verifies academic status instantly, guaranteeing student affordability across Thailand.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: PRODUCT PRICING & EDITIONS GUIDE -->
+  <section id="pricing" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Official Pricing Guide</span>
+      <h2 class="section-title">Transparent Product Pricing.</h2>
+      <p class="section-desc">
+        Clear, fixed product tiers engineered for every lifestyle—from subsidized student pricing to complete starter bundles and official ecosystem refills.
+      </p>
+    </div>
+
+    <!-- Product Matrix Table -->
+    <div class="pricing-table-frame">
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Product Tier / SKU</th>
+            <th>Retail Price (THB)</th>
+            <th>Package Features & Specs</th>
+            <th>Target & Eligibility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong style="display:block;">Student Campus Edition</strong>
+              <span class="sku-tag">SKU: HC-STU-590</span>
+            </td>
+            <td class="price-highlight">฿590.00</td>
+            <td>Full 750ml SUS304 double-wall bottle + MagSafe hinge lid + PP vortex mesh. Free laser engraving included.</td>
+            <td><span class="feature-badge">Subsidized Student Pricing</span> Verified via SheerID.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="display:block;">HydroChamber Pro</strong>
+              <span class="sku-tag">SKU: HC-PRO-690</span>
+            </td>
+            <td class="price-highlight">฿690.00</td>
+            <td>750ml bottle, MagSafe hinge lid, NTAG213 NFC tag, 60ml dry storage base, Kraft cylinder tube.</td>
+            <td><span class="feature-badge">Flagship Standard</span> Open to all customers nationwide.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="display:block;">Phygital Starter Bundle</strong>
+              <span class="sku-tag">SKU: HC-BND-799</span>
+            </td>
+            <td class="price-highlight">฿799.00</td>
+            <td>Flagship Pro bottle + 10x Clean Cheat Focus Pods + 1-Month Hydration App access.</td>
+            <td><span class="feature-badge">Best Value Package</span> Complete starter ecosystem.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="display:block;">Clean Cheat Focus Pods (10x Pack)</strong>
+              <span class="sku-tag">SKU: HC-POD-169</span>
+            </td>
+            <td class="price-highlight">฿169.00</td>
+            <td>Single-serve electrolyte & L-Theanine stick packs designed for silent honeycomb grid dissolution.</td>
+            <td><span class="feature-badge">Official Refill</span> Dissolves effortlessly in water.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong style="display:block;">Replacement MagSafe Lid Set</strong>
+              <span class="sku-tag">SKU: HC-LID-220</span>
+            </td>
+            <td class="price-highlight">฿220.00</td>
+            <td>Spare Eastman Tritan dual-sip lid with 18x N52 magnetic ring, friction hinge, and silicone seals.</td>
+            <td><span class="feature-badge">Spare Part Hardware</span> Fits all HydroChamber bottles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Customer Guarantee Highlights -->
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="highlight-val">SheerID</div>
+        <div class="highlight-lbl">Instant Student Discount</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-val">30-Day</div>
+        <div class="highlight-lbl">Defect Replacement Guarantee</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-val">1-Year</div>
+        <div class="highlight-lbl">Limited Hardware Warranty</div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-val">24 Hours</div>
+        <div class="highlight-lbl">Express Nationwide Delivery</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lineup Showcase Banner -->
+  <div class="lineup-banner fade-in">
+    <span class="section-tag">Design System</span>
+    <h2 class="section-title">Four Finishes. One Standard.</h2>
+    <p class="section-desc" style="max-width:640px; margin:0 auto;">
+      Finished with triple-layer electrostatic anti-scratch matte powder coat, tuned for university lecture desks, workouts, and hybrid work.
+    </p>
+    <div class="lineup-frame">
+      <img src="assets/colors_lineup.png" alt="HydroChamber 4 Color Lineup">
+    </div>
+  </div>
+
+  <!-- MagSafe Stand Mechanics Section -->
+  <section id="magsafe" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Mechanical Ergonomics</span>
+      <h2 class="section-title">An Articulating Stand in Your Lid.</h2>
+      <p class="section-desc">
+        Internal stainless steel friction washers maintain firm resistance from 15° to 90°, turning your hydration bottle into a stable phone stand.
+      </p>
+    </div>
+    <div class="magsafe-grid">
+      
+      <div class="magsafe-card">
+        <div class="magsafe-angle-badge">POSITION 01 • 0° FLUSH</div>
+        <h3>Low-Profile Ergonomic Loop</h3>
+        <p>When collapsed, the metallic ring snaps flush against the Tritan lid collar, acting as a sturdy one-finger carry handle with zero desk snagging.</p>
+      </div>
+
+      <div class="magsafe-card">
+        <div class="magsafe-angle-badge">POSITION 02 • 15° TO 90° TILT</div>
+        <h3>Stepless Study & Zoom Mode</h3>
+        <p>Holds firm at any viewing angle. Elevates your screen for video lectures, FaceTime calls, desk multitasking, and reading notes hands-free.</p>
+      </div>
+
+      <div class="magsafe-card">
+        <div class="magsafe-angle-badge">POSITION 03 • 12N LOCK</div>
+        <h3>Portrait & Landscape Snapping</h3>
+        <p>18 sintered N52 Neodymium magnets deliver 12 Newtons (1.2 kgf) of magnetic lock, securing your iPhone or MagSafe Android in both portrait and landscape orientation.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Industrial Laser Etching Studio Section -->
+  <section id="laser" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Fiber Laser Customization</span>
+      <h2 class="section-title">Permanent Laser Personalization.</h2>
+      <p class="section-desc">
+        Industrial fiber lasers etch directly through the powder coat, exposing the gleaming raw SUS304 steel underneath. It never peels or fades.
+      </p>
+    </div>
+    <div class="laser-studio-box">
+      <div class="laser-studio-info">
+        <h3>Try Engraving Preview</h3>
+        <p>Type any name or phrase (up to 16 characters) to see how laser etching renders vertically on the bottle body.</p>
+        <input type="text" class="laser-input-field" id="laserStudioInput" placeholder="e.g. ALEX, FOCUS, KBU" maxlength="16" oninput="previewLaserText(this.value)">
+        <div class="preset-chips">
+          <span>Presets:</span>
+          <button type="button" class="chip" onclick="applyLaserPreset('ALEX')">ALEX</button>
+          <button type="button" class="chip" onclick="applyLaserPreset('KBU')">KBU</button>
+          <button type="button" class="chip" onclick="applyLaserPreset('FOCUS')">FOCUS</button>
+          <button type="button" class="chip" onclick="applyLaserPreset('STUDENT')">STUDENT</button>
+        </div>
+      </div>
+      <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+        <div style="background:var(--bg-surface); border:1px solid var(--bg-card-border); border-radius:20px; padding:2.2rem 2rem; font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); line-height:1.7; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-weight:700; color:var(--text-main); margin-bottom:0.6rem; letter-spacing:0.5px;">FIBER LASER SPECIFICATIONS</div>
+          <div>Laser Beam Spot: 0.03mm</div>
+          <div>Depth: 0.12mm Deep Cut</div>
+          <div>Dishwasher Safe: 100% Verified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modular Component Architecture Section -->
+  <section id="architecture" class="fade-in">
+    <div class="section-header">
+      <span class="section-tag">Modular Engineering</span>
+      <h2 class="section-title">Precision Component Architecture.</h2>
+      <p class="section-desc">
+        Every subcomponent isolated and engineered to eliminate rattle, preserve ice-cold temperatures, and seamlessly connect to digital campus life.
+      </p>
+    </div>
+    <div class="parts-grid">
+      
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_magsafe_ring.png" alt="58mm MagSafe Ring"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 01 • ARTICULATION</div>
+          <h3>58mm MagSafe Ring</h3>
+          <p>CNC-machined alloy ring packed with 18 sintered N52 magnets for rock-solid 12N magnetic lock on any MagSafe phone or case.</p>
+        </div>
+      </div>
+
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_lid_assembly.png" alt="Dual-Sip Ergonomic Lid"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 02 • CLOSURE</div>
+          <h3>Dual-Sip Ergonomic Lid</h3>
+          <p>Molded from food-grade Eastman Tritan co-polymer with quick-access sip spout, curved carry handle, and integrated hinge mount.</p>
+        </div>
+      </div>
+
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_honeycomb_grid.png" alt="PP Honeycomb Vortex Grid"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 03 • BLENDING & INFUSION</div>
+          <h3>PP Honeycomb Grid</h3>
+          <p>BPA-free polypropylene vortex mesh that silently dissolves protein and electrolyte powders with zero metal ball rattle during class.</p>
+        </div>
+      </div>
+
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_steel_body.png" alt="SUS304 Steel Chassis"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 04 • VESSEL</div>
+          <h3>SUS304 Steel Chassis</h3>
+          <p>Food-grade 18/8 stainless steel cylindrical body finished with electrostatic anti-scratch matte powder coat and laser-etched branding.</p>
+        </div>
+      </div>
+
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_copper_liner.png" alt="Copper Vacuum Liner"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 05 • THERMAL RETENTION</div>
+          <h3>Copper Vacuum Liner</h3>
+          <p>0.4mm pure copper thermal getter radiation barrier preserving ice-cold hydration for 24 hours in 38°C ambient tropical heat.</p>
+        </div>
+      </div>
+
+      <div class="part-card">
+        <div class="part-img-box"><img src="assets/part_nfc_module.png" alt="NXP NTAG213 NFC Smart Module"></div>
+        <div class="part-meta">
+          <div class="part-meta-tag">PART 06 • DIGITAL CONNECTIVITY</div>
+          <h3>NXP NTAG213 NFC Chip</h3>
+          <p>13.56 MHz RFID antenna insulated by a 0.2mm anti-metal sintered ferrite barrier. Tap your phone to instantly log water.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NFC Phygital Hydration Sync Section -->
+  <section id="phygital" class="fade-in">
+    <div class="nfc-showcase-box">
+      <div class="nfc-text">
+        <h3>Tap to Log Hydration. Zero Apps Required.</h3>
+        <p>
+          Embedded inside the base of every HydroChamber is an NXP NTAG213 NFC smart chip. Simply tap your iPhone or Android against the bottle base to launch your personal hydration companion instantly.
+        </p>
+        <div class="nfc-badge-list">
+          <div class="nfc-badge-item"><span class="nfc-badge-icon">01</span> Instant Webhook Hydration Sync</div>
+          <div class="nfc-badge-item"><span class="nfc-badge-icon">02</span> Anti-Metal Ferrite Shielding</div>
+          <div class="nfc-badge-item"><span class="nfc-badge-icon">03</span> Zero Battery or Charging Required</div>
+        </div>
+      </div>
+
+      <div class="nfc-demo-card">
+        <div style="width:60px; height:60px; border-radius:50%; background:rgba(128,128,128,0.12); display:flex; align-items:center; justify-content:center; border:1px solid var(--bg-card-border);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 0 12 0A6 6 0 0 0 6 9z"/><path d="M12 3v3"/><path d="M12 15v3"/></svg>
+        </div>
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:1.2rem; color:var(--text-main);">NFC Smart Tap Active</div>
+        <div style="font-size:0.84rem; color:var(--text-muted); line-height:1.5;">Tap phone to bottle base &rarr; Instantly opens personal hydration counter.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications & Compliance Grid -->
+  <div class="specs-grid fade-in" id="specs">
+    <div>
+      <div class="spec-val">750<span>ml</span></div>
+      <div class="spec-lbl">Vessel Capacity + 60ml Storage</div>
+    </div>
+    <div>
+      <div class="spec-val">24<span>hrs</span></div>
+      <div class="spec-lbl">Icy Cold Thermal Retention</div>
+    </div>
+    <div>
+      <div class="spec-val">SUS<span>304</span></div>
+      <div class="spec-lbl">Food-Grade 18/8 Stainless Steel</div>
+    </div>
+    <div>
+      <div class="spec-val">FDA<span>435</span></div>
+      <div class="spec-lbl">Thai FDA Contact Compliance</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Hydro<span>Chamber</span></h3>
+        <p>The phygital smart hydration platform designed for modern students and active lifestyles across Thailand. Built for Digital Business and Application Project.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#hero">Overview</a></li>
+          <li><a href="#background">Market Background</a></li>
+          <li><a href="#reasoning">Strategic Reasoning</a></li>
+          <li><a href="#pricing">Pricing Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Product Technology</h4>
+        <ul>
+          <li><a href="#phygital">NFC Smart Sync</a></li>
+          <li><a href="#architecture">SUS304 Chassis</a></li>
+          <li><a href="#architecture">Tritan Dual-Sip Lid</a></li>
+          <li><a href="#architecture">Honeycomb Grid</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Compliance & Standards</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="openTermsModal()">Thai FDA No. 435</a></li>
+          <li><a href="javascript:void(0)" onclick="openTermsModal()">NBTC Class B SDoC</a></li>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">Customer Support Desk</a></li>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">Product Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 HydroChamber. Digital Business and Application Project.</div>
+      <div>Standard 304 Stainless Steel • Thai FDA Notification No. 435 • SDoC Class B Passive NFC</div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll Animation Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // --- THEME SWITCHER (Light Mode by Default with Persistent Memory) ---
+    const STORAGE_KEY_THEME = 'hydrochamber_marketing_theme';
+    let currentTheme = 'light';
+
+    function initTheme() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_THEME);
+        if (saved === 'dark') {
+          setTheme('dark');
+        } else {
+          setTheme('light');
+        }
+      } catch (e) {
+        setTheme('light');
+      }
+    }
+
+    function toggleTheme() {
+      const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+      setTheme(nextTheme);
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+      } else {
+        document.body.classList.remove('theme-dark');
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY_THEME, theme);
+      } catch (e) {}
+    }
+
+    // --- 360 SHOWCASE COLOR SWITCHER ---
+    function switchShowcaseColor(key, name, imgPath, btnEl) {
+      const img = document.getElementById('showcaseImg');
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.96)';
+      setTimeout(() => {
+        img.src = imgPath;
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      }, 150);
+
+      document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    // --- LASER PERSONALIZATION STUDIO PREVIEW ---
+    function previewLaserText(val) {
+      const overlay = document.getElementById('showcaseLaserOverlay');
+      const text = val.trim().toUpperCase();
+      if (text.length > 0) {
+        overlay.innerText = text;
+        overlay.style.display = 'block';
+      } else {
+        overlay.style.display = 'none';
+      }
+    }
+
+    function applyLaserPreset(text) {
+      const field = document.getElementById('laserStudioInput');
+      field.value = text;
+      previewLaserText(text);
+    }
+
+    // --- MODAL CONTROLS ---
+    function openProposalModal() {
+      document.getElementById('proposalModal').classList.add('active');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+
+    function openContactModal() {
+      document.getElementById('contactModal').classList.add('active');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+
+    function openTermsModal() {
+      document.getElementById('termsModal').classList.add('active');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+
+    function closeAllDrawers() {
+      document.getElementById('proposalModal').classList.remove('active');
+      document.getElementById('contactModal').classList.remove('active');
+      document.getElementById('termsModal').classList.remove('active');
+      document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('hero').classList.add('visible');
+      initTheme();
+    });
+  </script>
+</body>
+</html>
