@@ -548,12 +548,20 @@
       position: fixed; bottom: 6rem; right: 2rem; width: 380px; max-width: calc(100vw - 2.5rem);
       height: 520px; max-height: calc(100vh - 8rem); background: var(--header-bg);
       backdrop-filter: blur(30px) saturate(190%); border: 1px solid var(--bg-card-border);
-      border-radius: 28px; z-index: 1030; display: none; flex-direction: column;
+      border-radius: 28px; z-index: 1060; display: none; flex-direction: column;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22); overflow: hidden;
       animation: chatSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @media (max-width: 768px) {
-      .chat-window { bottom: 4.5rem; right: 1.25rem; left: 1.25rem; width: auto; max-width: none; height: 480px; }
+      .chat-window {
+        bottom: 0 !important; left: 0 !important; right: 0 !important;
+        width: 100vw !important; max-width: 100vw !important;
+        height: 82vh !important; max-height: 82vh !important;
+        border-radius: 24px 24px 0 0 !important; z-index: 1070 !important;
+        box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.3) !important;
+      }
+      body.chat-active .mobile-sticky-bar { display: none !important; }
+      body.chat-active .chat-widget-launcher { display: none !important; }
     }
     .chat-window.active { display: flex; }
 
@@ -1448,7 +1456,10 @@
       const win = document.getElementById('chatWindow');
       win.classList.toggle('active');
       if (win.classList.contains('active')) {
+        document.body.classList.add('chat-active');
         document.getElementById('chatInput').focus();
+      } else {
+        document.body.classList.remove('chat-active');
       }
     }
 
@@ -1509,6 +1520,20 @@
 
     function processHydroBotQuery(rawQuery) {
       const q = rawQuery.toLowerCase();
+
+      // Intent 0: Greetings & Social Chat
+      if (q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('sawasdee') || q.includes('swd') || q.includes('sup') || q.includes('yo') || q.includes('good morning') || q.includes('good afternoon') || q.includes('test')) {
+        return {
+          text: "Sawasdee krub! How can I help you today? Ask me about our student offer (฿590), laser name engraving, MagSafe phone stand, or bottle colorways!",
+          actionHTML: `
+            <div class="chat-quick-chips">
+              <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+              <button class="chat-chip" onclick="sendQuickChat('Try Laser Engraving')">Laser Engraving</button>
+              <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+            </div>
+          `
+        };
+      }
 
       // Intent 1: Pricing & Student Offer
       if (q.includes('price') || q.includes('cost') || q.includes('student') || q.includes('discount') || q.includes('590') || q.includes('690') || q.includes('799') || q.includes('how much') || q.includes('offer')) {
@@ -1584,11 +1609,11 @@
 
       // Fallback
       return {
-        text: "I am specialized in HydroChamber product specs, student prices (฿590-฿799), MagSafe stands, and laser engraving. For custom university orders or questions, tap below to contact support!",
+        text: "I am specialized in HydroChamber product specs, student verification, prices (฿590-฿799), MagSafe stands, and laser engraving. For custom questions, tap below!",
         actionHTML: `
           <div class="chat-quick-chips">
             <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
-            <button class="chat-chip" onclick="openContactModal()">Customer Care</button>
+            <button class="chat-chip" onclick="openContactModal()">Customer Care Desk</button>
           </div>
         `
       };
