@@ -203,15 +203,6 @@
     }
     body.theme-dark .showcase-img { filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.6)); }
 
-    /* Laser Engraving Visual Overlay */
-    .showcase-laser-overlay {
-      position: absolute; bottom: 30%; left: 50%;
-      transform: translateX(-50%) rotate(-90deg); transform-origin: center center;
-      font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 4px; text-transform: uppercase; color: var(--text-main);
-      opacity: 0.85; pointer-events: none; display: none; white-space: nowrap; user-select: none;
-    }
-
     /* Swatch Bar Below Showcase */
     .swatch-bar {
       display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;
@@ -341,30 +332,6 @@
       filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.25)); transition: transform 0.4s ease;
     }
     .lineup-frame:hover img { transform: scale(1.02); }
-
-    /* Laser Personalization Studio Section */
-    .laser-studio-box {
-      background: var(--bg-card); border: 1.5px solid var(--bg-card-border);
-      border-radius: 28px; padding: 3rem; max-width: 900px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: stretch;
-    }
-    .laser-studio-info h3 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.8rem; }
-    .laser-studio-info p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
-    .laser-input-field {
-      width: 100%; padding: 0.95rem 1.1rem; border: 1.5px solid var(--bg-card-border);
-      border-radius: 12px; background: rgba(128, 128, 128, 0.08); color: var(--text-main);
-      font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600;
-      letter-spacing: 2px; outline: none; transition: border-color 0.2s; margin-bottom: 1rem;
-    }
-    .laser-input-field:focus { border-color: var(--bg-card-border-active); }
-    .preset-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    .preset-chips span { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono); }
-    .chip {
-      padding: 0.25rem 0.65rem; border-radius: 6px; background: rgba(128, 128, 128, 0.08);
-      border: 1px solid var(--bg-card-border); font-family: var(--font-mono); font-size: 0.72rem;
-      color: var(--text-muted); cursor: pointer; transition: all 0.15s;
-    }
-    .chip:hover { color: var(--btn-primary-text); background: var(--btn-primary-bg); border-color: var(--btn-primary-bg); }
 
     /* Parts Grid Section */
     .parts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
@@ -653,7 +620,7 @@
       .hero-stats-row { justify-content: center; }
       .bg-grid, .magsafe-grid, .parts-grid { grid-template-columns: repeat(2, 1fr); }
       .reasoning-grid { grid-template-columns: 1fr; }
-      .laser-studio-box, .nfc-showcase-box { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nfc-showcase-box { grid-template-columns: 1fr; gap: 2.5rem; }
       .specs-grid, .highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
       section { padding: 4.5rem 1.25rem; }
@@ -733,11 +700,6 @@
       .lineup-banner { padding: 3rem 1rem !important; width: 100% !important; max-width: 100vw !important; overflow: hidden !important; }
       .lineup-frame { padding: 1.5rem 0.5rem !important; border-radius: 20px !important; width: 100% !important; }
       .lineup-frame img { width: 100% !important; height: auto !important; }
-
-      .laser-studio-box { grid-template-columns: 1fr !important; padding: 1.5rem 1.15rem !important; border-radius: 20px !important; gap: 1.5rem !important; width: 100% !important; }
-      .laser-input-field { font-size: 16px !important; padding: 0.8rem 0.95rem !important; width: 100% !important; }
-      .preset-chips { gap: 0.4rem !important; }
-      .preset-chips .chip { min-height: 40px !important; padding: 0.45rem 0.75rem !important; font-size: 0.78rem !important; }
 
       .nfc-showcase-box { grid-template-columns: 1fr !important; padding: 1.75rem 1.2rem !important; border-radius: 20px !important; gap: 2rem !important; width: 100% !important; }
 
@@ -839,8 +801,8 @@
           <p>Passive 13.56 MHz NXP NTAG213 NFC tag complies with NBTC SDoC Class B RFID electromagnetic safety standards. Insulated by 0.2mm anti-metal sintered ferrite barrier.</p>
         </div>
         <div>
-          <h4>3. Industrial Laser Fiber Etching</h4>
-          <p>Laser engraving permanently exposes the raw SUS304 stainless steel body. Dishwasher safe, non-toxic, and resistant to scratching.</p>
+          <h4>3. Precision Copper Thermal Barrier</h4>
+          <p>0.4mm pure copper thermal getter coating preserves icy cold temperatures for 24 hours in 38°C ambient tropical weather.</p>
         </div>
       </div>
     </div>
@@ -955,11 +917,11 @@
 
     <div class="chat-messages" id="chatMessages">
       <div class="chat-msg bot">
-        Sawasdee krub! I am <strong>HydroBot</strong>, your 100% free HydroChamber assistant. Ask me about student deals, pricing, MagSafe specs, laser engraving, or delivery!
+        Sawasdee krub! I am <strong>HydroBot</strong>, your 100% free HydroChamber assistant. Ask me about student deals, pricing, MagSafe stand specs, NFC sync, or delivery!
         <div class="chat-quick-chips">
           <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
-          <button class="chat-chip" onclick="sendQuickChat('Try Laser Engraving')">Laser Engraving</button>
           <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+          <button class="chat-chip" onclick="sendQuickChat('NFC Sync')">NFC Sync</button>
           <button class="chat-chip" onclick="sendQuickChat('Electrolyte Refills')">Refill Packs</button>
         </div>
       </div>
@@ -1019,7 +981,6 @@
     <!-- Right: Interactive 360 Showcase Canvas -->
     <div class="showcase-stage-card">
       <img src="assets/bottle_matcha.png" alt="HydroChamber Flagship Display" class="showcase-img" id="showcaseImg">
-      <div class="showcase-laser-overlay" id="showcaseLaserOverlay">ALEX</div>
     </div>
   </div>
 
@@ -1229,35 +1190,25 @@
     </div>
   </section>
 
-  <!-- Industrial Laser Etching Studio Section -->
+  <!-- Industrial Laser Etching Feature Showcase -->
   <section id="laser" class="fade-in">
     <div class="section-header">
-      <span class="section-tag">Fiber Laser Customization</span>
-      <h2 class="section-title">Permanent Laser Personalization.</h2>
+      <span class="section-tag">Permanent Hardware Customization</span>
+      <h2 class="section-title">Industrial Fiber Laser Etching.</h2>
       <p class="section-desc">
-        Industrial fiber lasers etch directly through the powder coat, exposing the gleaming raw SUS304 steel underneath. It never peels or fades.
+        Every HydroChamber includes complimentary custom name or student ID etching. Precision fiber lasers cut through the powder coat into the raw SUS304 stainless steel for permanent, non-peeling personalization.
       </p>
     </div>
-    <div class="laser-studio-box">
-      <div class="laser-studio-info">
-        <h3>Try Engraving Preview</h3>
-        <p>Type any name or phrase (up to 16 characters) to see how laser etching renders vertically on the bottle body.</p>
-        <input type="text" class="laser-input-field" id="laserStudioInput" placeholder="e.g. ALEX, FOCUS, KBU" maxlength="16" oninput="previewLaserText(this.value)">
-        <div class="preset-chips">
-          <span>Presets:</span>
-          <button type="button" class="chip" onclick="applyLaserPreset('ALEX')">ALEX</button>
-          <button type="button" class="chip" onclick="applyLaserPreset('KBU')">KBU</button>
-          <button type="button" class="chip" onclick="applyLaserPreset('FOCUS')">FOCUS</button>
-          <button type="button" class="chip" onclick="applyLaserPreset('STUDENT')">STUDENT</button>
-        </div>
+    <div class="reasoning-grid">
+      <div class="reasoning-card">
+        <span class="reasoning-pill">PERMANENT FINISH</span>
+        <h3>Zero Peeling or Fading</h3>
+        <p>Unlike screen printing or vinyl stickers that wash off after a month, fiber laser etching alters the surface of the SUS304 stainless steel itself. 100% dishwasher safe and scratch-resistant.</p>
       </div>
-      <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
-        <div style="background:var(--bg-surface); border:1px solid var(--bg-card-border); border-radius:20px; padding:2.2rem 2rem; font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); line-height:1.7; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center;">
-          <div style="font-weight:700; color:var(--text-main); margin-bottom:0.6rem; letter-spacing:0.5px;">FIBER LASER SPECIFICATIONS</div>
-          <div>Laser Beam Spot: 0.03mm</div>
-          <div>Depth: 0.12mm Deep Cut</div>
-          <div>Dishwasher Safe: 100% Verified</div>
-        </div>
+      <div class="reasoning-card">
+        <span class="reasoning-pill">CAMPUS IDENTITY</span>
+        <h3>Custom Name & Student ID</h3>
+        <p>Personalize your HydroChamber with your name, initials, or campus club ID during checkout (up to 16 characters). Perfect for gym floors, lecture halls, and library desks so your bottle never gets mixed up.</p>
       </div>
     </div>
   </section>
@@ -1476,24 +1427,6 @@
       if (btnEl) btnEl.classList.add('active');
     }
 
-    // --- LASER PERSONALIZATION STUDIO PREVIEW ---
-    function previewLaserText(val) {
-      const overlay = document.getElementById('showcaseLaserOverlay');
-      const text = val.trim().toUpperCase();
-      if (text.length > 0) {
-        overlay.innerText = text;
-        overlay.style.display = 'block';
-      } else {
-        overlay.style.display = 'none';
-      }
-    }
-
-    function applyLaserPreset(text) {
-      const field = document.getElementById('laserStudioInput');
-      field.value = text;
-      previewLaserText(text);
-    }
-
     // --- MOBILE MENU CONTROLS ---
     function toggleMobileMenu() {
       const drawer = document.getElementById('mobileNavDrawer');
@@ -1613,23 +1546,6 @@
     function processHydroBotQuery(rawQuery) {
       const q = rawQuery.toLowerCase().trim();
 
-      // Check for direct laser engraving command: "engrave [name]" or "สลักชื่อ [name]"
-      const engraveMatch = q.match(/(?:engrave|laser|etch|สลักชื่อ|พิมพ์ชื่อ|ชื่อ)\s+['"]?([a-zA-Z0-9\s]{1,16})['"]?/i);
-      if (engraveMatch && engraveMatch[1] && !['specs', 'price', 'cost', 'options', 'me', 'it'].includes(engraveMatch[1].trim().toLowerCase())) {
-        const nameToEngrave = engraveMatch[1].trim().toUpperCase();
-        chatContext.lastIntent = 'engrave_action';
-        chatContext.lastTopic = 'engrave';
-        return {
-          text: `Got it! Updated laser engraving preview to <strong>"${nameToEngrave}"</strong>. Industrial fiber laser will etch this permanently into raw SUS304 stainless steel!`,
-          actionHTML: `<button class="chat-chip" onclick="applyLaserPreset('${nameToEngrave}')">Preview "${nameToEngrave}"</button>`,
-          trigger: () => {
-            applyLaserPreset(nameToEngrave);
-            const overlay = document.getElementById('showcaseLaserOverlay');
-            if (overlay) overlay.scrollIntoView({ behavior: 'smooth' });
-          }
-        };
-      }
-
       // Check for direct cart / buy command
       if (q.includes('add to cart') || q.includes('buy now') || q.includes('ใส่ตะกร้า') || q.includes('สั่งซื้อ') || q.includes('ซื้อเลย')) {
         chatContext.lastIntent = 'cart_action';
@@ -1647,12 +1563,12 @@
           keywords: ['hello', 'hi', 'hey', 'sawasdee', 'swd', 'sup', 'yo', 'good morning', 'good afternoon', 'สวัสดี', 'หวัดดี', 'ทักทาย', 'test'],
           weight: 2,
           response: () => ({
-            text: "Sawasdee krub! I'm <strong>HydroBot</strong>, your instant assistant. Ask me anything in Thai or English about pricing (฿590), laser engraving, MagSafe stands, or bottle colorways!",
+            text: "Sawasdee krub! I'm <strong>HydroBot</strong>, your instant assistant. Ask me anything in Thai or English about pricing (฿590), custom name engraving, MagSafe stand specs, or bottle colorways!",
             actionHTML: `
               <div class="chat-quick-chips">
                 <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
-                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Try Engraving 'ALEX'</button>
                 <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+                <button class="chat-chip" onclick="sendQuickChat('NFC Sync')">NFC Sync</button>
                 <button class="chat-chip" onclick="sendQuickChat('Stanley vs HydroChamber')">Compare Stanley</button>
               </div>
             `
@@ -1663,7 +1579,7 @@
           keywords: ['price', 'cost', 'student', 'discount', '590', '690', '799', 'how much', 'offer', 'cheap', 'ราคา', 'กี่บาท', 'ส่วนลด', 'นักศึกษา', 'โปรโมชั่น', 'เชียร์', 'sheerid'],
           weight: 2,
           response: () => ({
-            text: "HydroChamber fixed pricing matrix:<br>• <strong>Student Starter Edition</strong>: ฿590 (Via SheerID verification)<br>• <strong>Pro Tech Edition</strong>: ฿690 (Includes FREE Laser Engraving)<br>• <strong>Full Ecosystem Bundle</strong>: ฿799 (Includes 10x Focus Pods + Carabiner Cap)",
+            text: "HydroChamber fixed pricing matrix:<br>• <strong>Student Starter Edition</strong>: ฿590 (Via SheerID verification)<br>• <strong>Pro Tech Edition</strong>: ฿690 (Includes FREE Custom Engraving)<br>• <strong>Full Ecosystem Bundle</strong>: ฿799 (Includes 10x Focus Pods + Carabiner Cap)",
             actionHTML: `
               <div class="chat-quick-chips">
                 <button class="chat-chip" onclick="sendQuickChat('add to cart')">Add Student ฿590 to Cart</button>
@@ -1687,17 +1603,13 @@
           keywords: ['laser', 'engrav', 'name', 'etch', 'custom', 'text', 'font', 'print', 'สลักชื่อ', 'พิมพ์ชื่อ', 'ชื่อ', 'ข้อความ', 'ตัวหนังสือ', 'สลัก'],
           weight: 2,
           response: () => ({
-            text: "Industrial fiber laser etching permanently removes the outer coat, exposing silver SUS304 steel. 100% dishwasher safe & will never peel! Try typing <code>สลักชื่อ YOURNAME</code> or click below:",
+            text: "Yes! Every HydroChamber includes complimentary custom name or student ID engraving (up to 16 characters). During checkout, enter your custom text and our industrial fiber laser etches it permanently into the raw SUS304 steel body (100% dishwasher safe & never fades)!",
             actionHTML: `
               <div class="chat-quick-chips">
-                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Engrave 'ALEX'</button>
-                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ KBU2026')">Engrave 'KBU2026'</button>
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="document.getElementById('laser').scrollIntoView({behavior:'smooth'})">View Laser Specs</button>
               </div>
-            `,
-            trigger: () => {
-              const el = document.getElementById('laserStudioInput');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }
+            `
           })
         },
         {
