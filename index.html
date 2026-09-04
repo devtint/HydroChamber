@@ -1559,6 +1559,71 @@
       // Multi-keyword intent scoring definitions
       const intents = [
         {
+          id: 'capabilities',
+          keywords: ['what can you do', 'what can u do', 'what do you do', 'what can i ask', 'what are your features', 'help', 'capabilities', 'features', 'menu', 'commands', 'what can it do', 'can you do', 'what you do', 'how to use', 'guide', 'ทำอะไรได้บ้าง', 'ทำอะไรได้', 'ทำไรได้', 'ช่วยอะไรได้บ้าง', 'ช่วยอะไรได้', 'มีความสามารถอะไร', 'เมนู', 'แนะนำตัว', 'แนะนำหน่อย'],
+          weight: 4,
+          response: () => ({
+            text: "I'm <strong>HydroBot</strong>, your personal HydroChamber assistant! Here is what I can do for you:<br>• <strong>Student Discount:</strong> Guide you to unlock the ฿590 SheerID rate<br>• <strong>Laser Engraving:</strong> Explain free custom name etching (up to 16 chars)<br>• <strong>MagSafe Stand:</strong> Explain the 12N friction hinge mechanics & phone compatibility<br>• <strong>Color Switcher:</strong> Switch bottle color previews live on your screen<br>• <strong>Tech Specs:</strong> Provide Thai FDA, SUS304 steel, leakproof, and thermal details<br>• <strong>Cart & Ordering:</strong> Direct you to checkout with PromptPay QR / Cards",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
+                <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+                <button class="chat-chip" onclick="sendQuickChat('Color Matcha Sage')">Switch Colors</button>
+                <button class="chat-chip" onclick="sendQuickChat('How to Order')">How to Order</button>
+              </div>
+            `
+          })
+        },
+        {
+          id: 'about',
+          keywords: ['what is hydrochamber', 'what is this', 'what is it', 'tell me about', 'คืออะไร', 'ขวดน้ำอะไร', 'คืออะไรครับ', 'คืออะไรคะ', 'เกี่ยวกับอะไร', 'สินค้าคืออะไร'],
+          weight: 3,
+          response: () => ({
+            text: "<strong>HydroChamber</strong> is a phygital smart drinkware platform designed for students and active professionals, combining 3 daily objects into one:<br>1. <strong>750ml SUS304 Thermal Bottle:</strong> 24hr icy cold insulation<br>2. <strong>Articulating MagSafe Stand:</strong> 12N magnetic ring lid holding any phone at 15°-90°<br>3. <strong>Passive NFC Smart Base:</strong> Instant 1-tap hydration logging without an app<br>Plus permanent industrial laser name engraving included free with every order!",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+                <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
+              </div>
+            `
+          })
+        },
+        {
+          id: 'order_guide',
+          keywords: ['how to order', 'how to buy', 'where to buy', 'order process', 'how to get', 'สั่งยังไง', 'ซื้อยังไง', 'ขั้นตอนการสั่ง', 'สั่งซื้อยังไง', 'ซื้อได้ที่ไหน'],
+          weight: 3,
+          response: () => ({
+            text: "Ordering HydroChamber takes under 60 seconds:<br>1. <strong>Pick Colorway:</strong> Matcha Sage, Oat Milk, Lavender Haze, or Slate Charcoal<br>2. <strong>Select Edition:</strong> Student Starter (฿590 via SheerID) or Pro (฿690)<br>3. <strong>Custom Laser Engraving:</strong> Specify your name or student ID (up to 16 chars) free<br>4. <strong>Checkout:</strong> Secure payment via PromptPay QR, Credit/Debit card, or TrueMoney!",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="openProposalModal()">Open Pricing Matrix</button>
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+              </div>
+            `,
+            trigger: () => { openProposalModal(); }
+          })
+        },
+        {
+          id: 'android',
+          keywords: ['android', 'samsung', 'oppo', 'vivo', 'xiaomi', 'pixel', 'แอนดรอยด์', 'ซัมซุง'],
+          weight: 3,
+          response: () => ({
+            text: "Does Android work with HydroChamber? <strong>Yes!</strong> Any Android phone works seamlessly using a MagSafe-compatible magnetic phone case or a slim adhesive metal ring adapter (magnetic strength holds full 12 Newtons force).",
+            actionHTML: `<button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand Specs</button>`
+          })
+        },
+        {
+          id: 'practical',
+          keywords: ['leak', 'spill', 'hot', 'hot water', 'cup holder', 'car', 'weight', 'heavy', 'carry', 'รั่ว', 'หก', 'น้ำร้อน', 'ที่วางแก้ว', 'หนัก', 'น้ำหนัก', 'ใส่ในรถ'],
+          weight: 2,
+          response: () => ({
+            text: "• <strong>100% Leakproof:</strong> Dual food-grade silicone O-rings guarantee zero spills even upside-down inside backpacks.<br>• <strong>Fits Car Cup Holders:</strong> 74mm base diameter fits standard car and gym cup holders.<br>• <strong>Hot & Cold:</strong> Double-wall vacuum insulation safely handles hot drinks (up to 95°C) and keeps ice for 24 hours.<br>• <strong>Weight:</strong> Empty chassis is just 410g—lightweight for daily campus carry.",
+            actionHTML: `<button class="chat-chip" onclick="openTermsModal()">View Technical Specs</button>`
+          })
+        },
+        {
           id: 'greetings',
           keywords: ['hello', 'hi', 'hey', 'sawasdee', 'swd', 'sup', 'yo', 'good morning', 'good afternoon', 'สวัสดี', 'หวัดดี', 'ทักทาย', 'test'],
           weight: 2,
@@ -1567,8 +1632,8 @@
             actionHTML: `
               <div class="chat-quick-chips">
                 <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
                 <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
-                <button class="chat-chip" onclick="sendQuickChat('NFC Sync')">NFC Sync</button>
                 <button class="chat-chip" onclick="sendQuickChat('Stanley vs HydroChamber')">Compare Stanley</button>
               </div>
             `
@@ -1715,7 +1780,7 @@
             actionHTML: `
               <div class="chat-quick-chips">
                 <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
-                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Laser Engraving</button>
+                <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
               </div>
             `
           })
@@ -1752,11 +1817,11 @@
 
       // Fallback response with structured help chips
       return {
-        text: "I didn't quite catch that! I can help you with:<br>• <strong>Student Offer ฿590</strong><br>• <strong>Laser Name Engraving</strong> (type: <code>สลักชื่อ YOURNAME</code>)<br>• <strong>MagSafe Stand Specs</strong><br>• <strong>Colorway Switcher</strong> (Matcha/Oat/Lavender/Charcoal)",
+        text: "I didn't quite catch that! I can help you with:<br>• <strong>Student Offer ฿590</strong> (SheerID verified)<br>• <strong>Custom Laser Engraving</strong> (free on all bottles)<br>• <strong>MagSafe Stand Specs</strong> (12N magnetic lock)<br>• <strong>Colorway Switcher</strong> (Matcha/Oat/Lavender/Charcoal)",
         actionHTML: `
           <div class="chat-quick-chips">
             <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">฿590 Offer</button>
-            <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Laser Engraving</button>
+            <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
             <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
             <button class="chat-chip" onclick="sendQuickChat('Color Matcha Sage')">Colorways</button>
           </div>
