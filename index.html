@@ -458,10 +458,65 @@
     }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* Responsive Breakpoints */
+    /* Mobile Hamburger Menu Toggle Button */
+    .btn-mobile-menu {
+      display: none; width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(128, 128, 128, 0.1); border: 1px solid var(--bg-card-border);
+      color: var(--text-main); cursor: pointer; align-items: center; justify-content: center;
+      transition: all 0.2s ease; margin-left: 0.2rem;
+    }
+    .btn-mobile-menu:hover {
+      background: rgba(128, 128, 128, 0.2); border-color: var(--bg-card-border-active);
+    }
+
+    /* Mobile Sliding Navigation Drawer */
+    .mobile-nav-drawer {
+      position: fixed; top: 0; right: -100%; width: 310px; max-width: 86vw; height: 100vh;
+      background: var(--header-bg); backdrop-filter: blur(30px) saturate(190%);
+      border-left: 1px solid var(--bg-card-border); z-index: 1050;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 1.75rem 1.5rem; transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -15px 0 45px rgba(0, 0, 0, 0.18);
+    }
+    .mobile-nav-drawer.active { right: 0; }
+    .mobile-nav-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 1.25rem; border-bottom: 1px solid var(--bg-card-border);
+    }
+    .mobile-nav-links { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 1.5rem; }
+    .mobile-nav-links a {
+      color: var(--text-main); text-decoration: none; font-size: 1.05rem; font-weight: 700;
+      padding: 0.6rem 0.8rem; border-radius: 10px; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mobile-nav-links a:hover, .mobile-nav-links a:active {
+      background: rgba(128, 128, 128, 0.12); color: var(--text-main);
+    }
+
+    /* Mobile Sticky CTA Bottom Bar */
+    .mobile-sticky-bar {
+      display: none; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 99;
+      background: var(--header-bg); backdrop-filter: saturate(180%) blur(20px);
+      border-top: 1px solid var(--bg-card-border);
+      padding: 0.75rem 1.25rem; align-items: center; justify-content: space-between;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+    }
+    .mobile-sticky-info { display: flex; flex-direction: column; gap: 0.1rem; }
+    .mobile-sticky-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
+    .mobile-sticky-price { font-size: 0.95rem; font-weight: 800; color: var(--text-main); font-family: var(--font-heading); }
+    .mobile-sticky-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+    .mobile-sticky-btn {
+      padding: 0.65rem 1.25rem; background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border-radius: 99px; font-weight: 700; font-size: 0.82rem; border: none; cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .mobile-sticky-btn:active { transform: scale(0.96); }
+
+    /* Responsive Mobile-First Media Queries */
     @media (max-width: 1024px) {
-      header { padding: 1rem 1.5rem; }
+      header { padding: 0.9rem 1.25rem; }
       nav { display: none; }
+      .btn-mobile-menu { display: flex; }
       .hero-section { grid-template-columns: 1fr; gap: 3.5rem; padding-top: 7rem; text-align: center; }
       .hero-desc { margin: 0 auto; }
       .hero-stats-row { justify-content: center; }
@@ -470,28 +525,37 @@
       .laser-studio-box, .nfc-showcase-box { grid-template-columns: 1fr; gap: 2.5rem; }
       .specs-grid, .highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-      section { padding: 5rem 1.5rem; }
+      section { padding: 4.5rem 1.25rem; }
     }
 
     @media (max-width: 768px) {
-      .hero-title { font-size: 2.6rem; }
-      .showcase-stage-card { min-height: 420px; padding: 2rem 1rem; }
-      .showcase-img { max-height: 340px; }
-      .bg-grid, .magsafe-grid, .parts-grid { grid-template-columns: 1fr; }
-      .pricing-table th, .pricing-table td { padding: 0.9rem 0.8rem; font-size: 0.8rem; }
-      .specs-grid, .highlights-grid { grid-template-columns: 1fr 1fr; padding: 2.5rem 1rem; gap: 1.2rem; }
-      .spec-val { font-size: 2.2rem; }
+      body { padding-bottom: 68px; }
+      .mobile-sticky-bar { display: flex; }
+      .hero-title { font-size: clamp(2.1rem, 7.5vw, 2.8rem); line-height: 1.15; }
+      .showcase-stage-card { min-height: 380px; padding: 1.75rem 1rem; border-radius: 24px; }
+      .showcase-img { max-height: 300px; }
+      .swatch-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 100%; }
+      .swatch-btn { width: 100%; justify-content: center; min-height: 44px; font-size: 0.82rem; }
+      .bg-grid, .magsafe-grid, .parts-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+      .pricing-table-frame { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 20px; }
+      .pricing-table { min-width: 620px; }
+      .specs-grid, .highlights-grid { grid-template-columns: 1fr 1fr; padding: 2rem 1rem; gap: 1.2rem; }
+      .spec-val { font-size: 2.1rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
-      .section-title { font-size: 2.2rem; }
-      .laser-studio-box { padding: 2rem 1.5rem; }
-      .nfc-showcase-box { padding: 2.5rem 1.5rem; }
+      .section-title { font-size: clamp(1.7rem, 6vw, 2.3rem); }
+      .laser-studio-box { padding: 1.75rem 1.25rem; border-radius: 22px; }
+      .laser-input-field { font-size: 16px; padding: 0.85rem 1rem; } /* Prevent iOS auto-zoom */
+      .preset-chips .chip { min-height: 42px; padding: 0.5rem 0.85rem; font-size: 0.82rem; display: inline-flex; align-items: center; }
+      .nfc-showcase-box { padding: 2rem 1.25rem; border-radius: 24px; }
+      .btn-contact { display: none; } /* Handled in mobile menu */
     }
 
     @media (max-width: 480px) {
       .specs-grid, .highlights-grid { grid-template-columns: 1fr; }
-      .hero-title { font-size: 2.1rem; }
-      .section-title { font-size: 1.8rem; }
+      .hero-title { font-size: 2rem; }
+      .section-title { font-size: 1.65rem; }
+      section { padding: 3.5rem 1rem; }
     }
   </style>
 </head>
@@ -613,8 +677,49 @@
       </button>
 
       <button class="btn-contact" onclick="openContactModal()">Customer Care</button>
+
+      <!-- Mobile Menu Hamburger Button -->
+      <button class="btn-mobile-menu" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div>
+      <div class="mobile-nav-header">
+        <a href="#hero" class="brand-logo" onclick="closeMobileMenu()">Hydro<span>Chamber</span></a>
+        <button class="modal-close-btn" onclick="closeMobileMenu()">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="#hero" onclick="closeMobileMenu()">Overview</a>
+        <a href="#pricing" onclick="closeMobileMenu()">Product Pricing (฿590 - ฿799)</a>
+        <a href="#magsafe" onclick="closeMobileMenu()">MagSafe Phone Stand</a>
+        <a href="#architecture" onclick="closeMobileMenu()">Modular Architecture</a>
+        <a href="#phygital" onclick="closeMobileMenu()">NFC Tap Hydration</a>
+        <a href="#background" onclick="closeMobileMenu()">Project Background</a>
+        <a href="#reasoning" onclick="closeMobileMenu()">Academic Reasoning</a>
+        <a href="#specs" onclick="closeMobileMenu()">Tech Specifications</a>
+      </div>
+    </div>
+    <div style="padding-top:1.5rem; border-top:1px solid var(--bg-card-border);">
+      <button class="btn-contact" style="width:100%; justify-content:center; padding:0.8rem; font-size:0.9rem;" onclick="closeMobileMenu(); openContactModal();">Customer Care & Support</button>
+    </div>
+  </div>
+
+  <!-- Mobile Sticky CTA Floating Bottom Bar -->
+  <div class="mobile-sticky-bar">
+    <div class="mobile-sticky-info">
+      <div class="mobile-sticky-title">HydroChamber Pro</div>
+      <div class="mobile-sticky-price">฿690 <span class="mobile-sticky-sub">(Student ฿590)</span></div>
+    </div>
+    <button class="mobile-sticky-btn" onclick="openProposalModal()">Pricing Matrix</button>
+  </div>
 
   <!-- Hero Section -->
   <div class="hero-section fade-in" id="hero">
@@ -1134,6 +1239,25 @@
       previewLaserText(text);
     }
 
+    // --- MOBILE MENU CONTROLS ---
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (drawer.classList.contains('active')) {
+        closeMobileMenu();
+      } else {
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+      }
+    }
+
+    function closeMobileMenu() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      if (drawer) drawer.classList.remove('active');
+      const overlay = document.getElementById('drawerOverlay');
+      if (overlay) overlay.classList.remove('active');
+    }
+
     // --- MODAL CONTROLS ---
     function openProposalModal() {
       document.getElementById('proposalModal').classList.add('active');
@@ -1154,6 +1278,8 @@
       document.getElementById('proposalModal').classList.remove('active');
       document.getElementById('contactModal').classList.remove('active');
       document.getElementById('termsModal').classList.remove('active');
+      const mobileDrawer = document.getElementById('mobileNavDrawer');
+      if (mobileDrawer) mobileDrawer.classList.remove('active');
       document.getElementById('drawerOverlay').classList.remove('active');
     }
 
