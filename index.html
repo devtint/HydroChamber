@@ -1518,102 +1518,248 @@
       if (el) el.remove();
     }
 
-    function processHydroBotQuery(rawQuery) {
-      const q = rawQuery.toLowerCase();
+    let chatContext = {
+      lastIntent: null,
+      lastTopic: null
+    };
 
-      // Intent 0: Greetings & Social Chat
-      if (q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('sawasdee') || q.includes('swd') || q.includes('sup') || q.includes('yo') || q.includes('good morning') || q.includes('good afternoon') || q.includes('test')) {
+    function processHydroBotQuery(rawQuery) {
+      const q = rawQuery.toLowerCase().trim();
+
+      // Check for direct laser engraving command: "engrave [name]" or "สลักชื่อ [name]"
+      const engraveMatch = q.match(/(?:engrave|laser|etch|สลักชื่อ|พิมพ์ชื่อ|ชื่อ)\s+['"]?([a-zA-Z0-9\s]{1,16})['"]?/i);
+      if (engraveMatch && engraveMatch[1] && !['specs', 'price', 'cost', 'options', 'me', 'it'].includes(engraveMatch[1].trim().toLowerCase())) {
+        const nameToEngrave = engraveMatch[1].trim().toUpperCase();
+        chatContext.lastIntent = 'engrave_action';
+        chatContext.lastTopic = 'engrave';
         return {
-          text: "Sawasdee krub! How can I help you today? Ask me about our student offer (฿590), laser name engraving, MagSafe phone stand, or bottle colorways!",
-          actionHTML: `
-            <div class="chat-quick-chips">
-              <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
-              <button class="chat-chip" onclick="sendQuickChat('Try Laser Engraving')">Laser Engraving</button>
-              <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
-            </div>
-          `
+          text: `Got it! Updated laser engraving preview to <strong>"${nameToEngrave}"</strong>. Industrial fiber laser will etch this permanently into raw SUS304 stainless steel!`,
+          actionHTML: `<button class="chat-chip" onclick="applyLaserPreset('${nameToEngrave}')">Preview "${nameToEngrave}"</button>`,
+          trigger: () => {
+            applyLaserPreset(nameToEngrave);
+            const overlay = document.getElementById('showcaseLaserOverlay');
+            if (overlay) overlay.scrollIntoView({ behavior: 'smooth' });
+          }
         };
       }
 
-      // Intent 1: Pricing & Student Offer
-      if (q.includes('price') || q.includes('cost') || q.includes('student') || q.includes('discount') || q.includes('590') || q.includes('690') || q.includes('799') || q.includes('how much') || q.includes('offer')) {
+      // Check for direct cart / buy command
+      if (q.includes('add to cart') || q.includes('buy now') || q.includes('ใส่ตะกร้า') || q.includes('สั่งซื้อ') || q.includes('ซื้อเลย')) {
+        chatContext.lastIntent = 'cart_action';
         return {
-          text: "HydroChamber offers 3 fixed tiers:<br>• <strong>Student Starter Edition</strong>: ฿590<br>• <strong>Pro Tech Edition</strong>: ฿690 (Includes FREE Laser Engraving)<br>• <strong>Full Ecosystem Bundle</strong>: ฿799 (Includes 10x Refills + Carabiner Cap)",
-          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Full Pricing Matrix</button>`,
+          text: "Adding HydroChamber Student Edition (฿590) directly to your bag!",
+          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Product Pricing</button>`,
           trigger: () => { openProposalModal(); }
         };
       }
 
-      // Intent 2: Laser Personalization
-      if (q.includes('laser') || q.includes('engrav') || q.includes('name') || q.includes('etch') || q.includes('custom') || q.includes('text')) {
-        return {
-          text: "Industrial fiber laser engraving etches your name directly through powder coat into raw SUS304 steel. Dishwasher safe & never peels!",
-          actionHTML: `<button class="chat-chip" onclick="applyLaserPreset('ALEX')">Try Preview 'ALEX'</button>`,
-          trigger: () => {
-            document.getElementById('laserStudioInput').scrollIntoView({ behavior: 'smooth' });
+      // Multi-keyword intent scoring definitions
+      const intents = [
+        {
+          id: 'greetings',
+          keywords: ['hello', 'hi', 'hey', 'sawasdee', 'swd', 'sup', 'yo', 'good morning', 'good afternoon', 'สวัสดี', 'หวัดดี', 'ทักทาย', 'test'],
+          weight: 2,
+          response: () => ({
+            text: "Sawasdee krub! I'm <strong>HydroBot</strong>, your instant assistant. Ask me anything in Thai or English about pricing (฿590), laser engraving, MagSafe stands, or bottle colorways!",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Try Engraving 'ALEX'</button>
+                <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+                <button class="chat-chip" onclick="sendQuickChat('Stanley vs HydroChamber')">Compare Stanley</button>
+              </div>
+            `
+          })
+        },
+        {
+          id: 'pricing',
+          keywords: ['price', 'cost', 'student', 'discount', '590', '690', '799', 'how much', 'offer', 'cheap', 'ราคา', 'กี่บาท', 'ส่วนลด', 'นักศึกษา', 'โปรโมชั่น', 'เชียร์', 'sheerid'],
+          weight: 2,
+          response: () => ({
+            text: "HydroChamber fixed pricing matrix:<br>• <strong>Student Starter Edition</strong>: ฿590 (Via SheerID verification)<br>• <strong>Pro Tech Edition</strong>: ฿690 (Includes FREE Laser Engraving)<br>• <strong>Full Ecosystem Bundle</strong>: ฿799 (Includes 10x Focus Pods + Carabiner Cap)",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="sendQuickChat('add to cart')">Add Student ฿590 to Cart</button>
+                <button class="chat-chip" onclick="openProposalModal()">View Full Matrix</button>
+              </div>
+            `,
+            trigger: () => { openProposalModal(); }
+          })
+        },
+        {
+          id: 'competitor',
+          keywords: ['stanley', 'owala', 'hydro flask', 'blender', 'shaker', 'compare', 'vs', 'better', 'ต่างยังไง', 'เทียบกับ', 'แบรนด์อื่น'],
+          weight: 2,
+          response: () => ({
+            text: "Why choose HydroChamber over traditional tumblers (Stanley/Owala ฿1,500+)?<br>1. <strong>Built-in 360° MagSafe Stand</strong>: Hands-free phone holder for class/gym filming<br>2. <strong>Silent Honeycomb Grid</strong>: No rattling metal whisk ball<br>3. <strong>Instant NFC Sync</strong>: Tap bottle base to log hydration on LINE<br>4. <strong>Student Value</strong>: Premium SUS304 steel at ฿590 vs ฿1,500+",
+            actionHTML: `<button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">Explore MagSafe Hinge</button>`
+          })
+        },
+        {
+          id: 'engraving',
+          keywords: ['laser', 'engrav', 'name', 'etch', 'custom', 'text', 'font', 'print', 'สลักชื่อ', 'พิมพ์ชื่อ', 'ชื่อ', 'ข้อความ', 'ตัวหนังสือ', 'สลัก'],
+          weight: 2,
+          response: () => ({
+            text: "Industrial fiber laser etching permanently removes the outer coat, exposing silver SUS304 steel. 100% dishwasher safe & will never peel! Try typing <code>สลักชื่อ YOURNAME</code> or click below:",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Engrave 'ALEX'</button>
+                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ KBU2026')">Engrave 'KBU2026'</button>
+              </div>
+            `,
+            trigger: () => {
+              const el = document.getElementById('laserStudioInput');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+          })
+        },
+        {
+          id: 'magsafe',
+          keywords: ['magsafe', 'phone', 'stand', 'magnet', 'iphone', 'android', 'case', 'hold', 'camera', 'record', 'lecture', 'แม่เหล็ก', 'ขาตั้ง', 'หนีบมือถือ', 'ตั้งโทรศัพท์'],
+          weight: 2,
+          response: () => ({
+            text: "The top cap features an articulating 58mm MagSafe ring powered by 18 N52 Neodymium magnets (12 Newtons force). Holds any iPhone or Android (with magnetic sticker ring) at 360° portrait/landscape angles!",
+            actionHTML: `<button class="chat-chip" onclick="document.getElementById('magsafe').scrollIntoView({behavior:'smooth'})">View MagSafe Section</button>`
+          })
+        },
+        {
+          id: 'colors',
+          keywords: ['color', 'matcha', 'oat', 'lavender', 'charcoal', 'black', 'green', 'purple', 'white', 'สี', 'เขียว', 'ขาว', 'ม่วง', 'ดำ', 'สีอะไรบ้าง'],
+          weight: 2,
+          response: () => {
+            let selectedColor = 'matcha';
+            let colorName = 'Matcha Sage';
+            let imgPath = 'assets/bottle_matcha.png';
+
+            if (q.includes('oat') || q.includes('white') || q.includes('ขาว')) { selectedColor = 'oatmilk'; colorName = 'Oat Milk Cream'; imgPath = 'assets/bottle_oatmilk.png'; }
+            else if (q.includes('lavender') || q.includes('purple') || q.includes('ม่วง')) { selectedColor = 'lavender'; colorName = 'Lavender Haze'; imgPath = 'assets/bottle_lavender.png'; }
+            else if (q.includes('charcoal') || q.includes('black') || q.includes('ดำ')) { selectedColor = 'charcoal'; colorName = 'Slate Charcoal'; imgPath = 'assets/bottle_charcoal.png'; }
+
+            return {
+              text: `HydroChamber comes in 4 signature matte colorways: Matcha Sage, Oat Milk Cream, Lavender Haze, and Slate Charcoal. Switching live preview to <strong>${colorName}</strong>!`,
+              trigger: () => {
+                switchShowcaseColor(selectedColor, colorName, imgPath, null);
+                document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+              }
+            };
           }
-        };
-      }
+        },
+        {
+          id: 'nfc',
+          keywords: ['nfc', 'tap', 'sync', 'line', 'app', 'track', 'log', 'hydration', 'แตะ', 'สแกน', 'ไฮเดรต', 'แอป'],
+          weight: 2,
+          response: () => ({
+            text: "Embedded inside the bottle base is a passive NXP NTAG213 NFC chip. Zero batteries required! Simply tap your phone to open LINE OA for 1-click hydration tracking & instant refill ordering.",
+            actionHTML: `<button class="chat-chip" onclick="document.getElementById('phygital').scrollIntoView({behavior:'smooth'})">View NFC Sync Specs</button>`
+          })
+        },
+        {
+          id: 'refills',
+          keywords: ['refill', 'electrolyte', 'pack', 'powder', 'drink', 'theanine', '169', 'pods', 'ผง', 'เกลือแร่', 'อาหารเสริม', 'รีฟิล'],
+          weight: 2,
+          response: () => ({
+            text: "Clean Cheat Focus Pods (10x Stick Pack for ฿169) feature L-Theanine + Electrolytes that dissolve instantly in cold water with our PP honeycomb grid.",
+            actionHTML: `<button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Check Bottled Bundles</button>`
+          })
+        },
+        {
+          id: 'washing_material',
+          keywords: ['wash', 'clean', 'dishwasher', 'steel', 'fda', 'material', 'bpa', 'rust', 'heat', 'cold', 'thermal', 'hour', '750ml', 'capacity', 'size', 'ล้าง', 'เครื่องล้างจาน', 'สแตนเลส', 'ร้อน', 'เย็น', 'จุเท่าไหร่', 'กี่ชั่วโมง', 'อย'],
+          weight: 2,
+          response: () => ({
+            text: "100% Dishwasher Safe! Constructed from SUS304 Food-Grade Stainless Steel & BPA-Free Tritan plastic. Certified compliant with Thai FDA Notification No. 435. Vacuum insulated getter preserves iced drinks for 24 hrs!",
+            actionHTML: `<button class="chat-chip" onclick="openTermsModal()">View Safety Standards</button>`
+          })
+        },
+        {
+          id: 'shipping',
+          keywords: ['deliver', 'ship', 'send', 'fast', 'flash', 'bangkok', 'day', 'locker', 'ส่ง', 'กี่วัน', 'ส่งยังไง', 'ค่าส่ง', 'แฟลช', 'กรุงเทพ'],
+          weight: 2,
+          response: () => ({
+            text: "Orders before 14:00 dispatch same-day! 1-2 day delivery across Bangkok via Flash Express, plus free campus drop-off points at KBU lockers.",
+            actionHTML: `<button class="chat-chip" onclick="openContactModal()">Delivery Support</button>`
+          })
+        },
+        {
+          id: 'payment',
+          keywords: ['pay', 'promptpay', 'qr', 'bank', 'card', 'truemoney', 'cod', 'จ่ายเงิน', 'ชำระเงิน', 'พรอมเพย์', 'โอน', 'บัตรเครดิต'],
+          weight: 2,
+          response: () => ({
+            text: "We support 0% fee PromptPay QR Code scan, Visa/Mastercard credit/debit cards, and TrueMoney Wallet directly in our checkout!",
+            actionHTML: `<button class="chat-chip" onclick="openProposalModal()">Check Out Pricing</button>`
+          })
+        },
+        {
+          id: 'warranty',
+          keywords: ['guarantee', 'warranty', 'return', 'broken', 'defect', 'claim', 'replace', '30', 'รับประกัน', 'เคลม', 'พัง', 'ชำรุด'],
+          weight: 2,
+          response: () => ({
+            text: "Includes 30-Day Defect Replacement Guarantee and 1-Year Limited Hardware Warranty. If your laser engraving contains any spelling error from our side, we replace it instantly 100% free!",
+            actionHTML: `<button class="chat-chip" onclick="openTermsModal()">Warranty Details</button>`
+          })
+        },
+        {
+          id: 'kbu_project',
+          keywords: ['kbu', 'kasem', 'bundit', 'university', 'project', 'ajarn', 'team', 'who', 'มหาลัย', 'อาจารย์', 'เกษมบัณฑิต', 'โปรเจกต์'],
+          weight: 2,
+          response: () => ({
+            text: "HydroChamber is developed as part of the Digital Business and Application course at Kasem Bundit University (KBU) 2026.",
+            actionHTML: `<button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">View Student Pricing</button>`
+          })
+        },
+        {
+          id: 'thanks',
+          keywords: ['thank', 'thx', 'cool', 'awesome', 'great', 'nice', 'ok', 'bye', 'ขอบคุณ', 'ขอบใจ', 'ดีมาก', 'เจ๋ง', 'เยี่ยม'],
+          weight: 2,
+          response: () => ({
+            text: "You're very welcome! Feel free to ask if you need anything else or tap below to explore!",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
+                <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Laser Engraving</button>
+              </div>
+            `
+          })
+        }
+      ];
 
-      // Intent 3: MagSafe & Phone Stand
-      if (q.includes('magsafe') || q.includes('phone') || q.includes('stand') || q.includes('magnet') || q.includes('iphone') || q.includes('hold')) {
-        return {
-          text: "The top cap features an integrated 58mm MagSafe ring with 18 N52 Neodymium magnets (12 Newtons force). Holds any iPhone or magnetic case at 360° for filming or watching lectures!",
-          actionHTML: `<button class="chat-chip" onclick="document.getElementById('magsafe').scrollIntoView({behavior:'smooth'})">View MagSafe Section</button>`
-        };
-      }
+      // Calculate intent scores
+      let bestMatch = null;
+      let highestScore = 0;
 
-      // Intent 4: Colors
-      if (q.includes('color') || q.includes('matcha') || q.includes('oat') || q.includes('lavender') || q.includes('charcoal')) {
-        let selectedColor = 'matcha';
-        let colorName = 'Matcha Sage';
-        let imgPath = 'assets/bottle_matcha.png';
-
-        if (q.includes('oat')) { selectedColor = 'oatmilk'; colorName = 'Oat Milk Cream'; imgPath = 'assets/bottle_oatmilk.png'; }
-        else if (q.includes('lavender')) { selectedColor = 'lavender'; colorName = 'Lavender Haze'; imgPath = 'assets/bottle_lavender.png'; }
-        else if (q.includes('charcoal')) { selectedColor = 'charcoal'; colorName = 'Slate Charcoal'; imgPath = 'assets/bottle_charcoal.png'; }
-
-        return {
-          text: `HydroChamber comes in 4 matte colorways. Switching preview to <strong>${colorName}</strong>!`,
-          trigger: () => {
-            switchShowcaseColor(selectedColor, colorName, imgPath, null);
-            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+      for (const intent of intents) {
+        let score = 0;
+        for (const kw of intent.keywords) {
+          if (q.includes(kw)) {
+            score += intent.weight;
           }
-        };
+        }
+        if (score > highestScore) {
+          highestScore = score;
+          bestMatch = intent;
+        }
       }
 
-      // Intent 5: Refills & Electrolytes
-      if (q.includes('refill') || q.includes('electrolyte') || q.includes('pack') || q.includes('powder') || q.includes('drink')) {
-        return {
-          text: "10x Electrolyte & L-Theanine stick packs (฿169) are engineered for silent honeycomb grid dissolution. Tap NFC on bottle base to reorder in 1 second via LINE OA!",
-          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Refill Pricing</button>`
-        };
+      if (bestMatch && highestScore > 0) {
+        chatContext.lastIntent = bestMatch.id;
+        chatContext.lastTopic = bestMatch.id;
+        return bestMatch.response();
       }
 
-      // Intent 6: Washing & Dishwasher & Materials
-      if (q.includes('wash') || q.includes('clean') || q.includes('dishwasher') || q.includes('steel') || q.includes('fda') || q.includes('material')) {
-        return {
-          text: "HydroChamber is 100% dishwasher safe! Crafted from food-grade SUS304 stainless steel and BPA-free Tritan plastic (Thai FDA Notification No. 435 compliant).",
-          actionHTML: `<button class="chat-chip" onclick="openTermsModal()">View FDA Safety Certs</button>`
-        };
+      // Check context follow-up
+      if (chatContext.lastTopic === 'shipping' && (q.includes('how long') || q.includes('กี่วัน'))) {
+        return { text: "Express delivery in Bangkok takes 1-2 business days max! Campus drops are daily at 16:00." };
       }
 
-      // Intent 7: Contact / Support / Order
-      if (q.includes('contact') || q.includes('support') || q.includes('line') || q.includes('help') || q.includes('buy') || q.includes('order')) {
-        return {
-          text: "You can reach customer support or place orders directly via our LINE OA & Customer Care desk!",
-          actionHTML: `<button class="chat-chip" onclick="openContactModal()">Open Customer Support Desk</button>`,
-          trigger: () => { openContactModal(); }
-        };
-      }
-
-      // Fallback
+      // Fallback response with structured help chips
       return {
-        text: "I am specialized in HydroChamber product specs, student verification, prices (฿590-฿799), MagSafe stands, and laser engraving. For custom questions, tap below!",
+        text: "I didn't quite catch that! I can help you with:<br>• <strong>Student Offer ฿590</strong><br>• <strong>Laser Name Engraving</strong> (type: <code>สลักชื่อ YOURNAME</code>)<br>• <strong>MagSafe Stand Specs</strong><br>• <strong>Colorway Switcher</strong> (Matcha/Oat/Lavender/Charcoal)",
         actionHTML: `
           <div class="chat-quick-chips">
-            <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
-            <button class="chat-chip" onclick="openContactModal()">Customer Care Desk</button>
+            <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">฿590 Offer</button>
+            <button class="chat-chip" onclick="sendQuickChat('สลักชื่อ ALEX')">Laser Engraving</button>
+            <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
+            <button class="chat-chip" onclick="sendQuickChat('Color Matcha Sage')">Colorways</button>
           </div>
         `
       };
