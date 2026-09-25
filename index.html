@@ -443,6 +443,48 @@
       max-width: 1400px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--bg-card-border);
       display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: var(--text-dim);
     }
+    /* Footer Celebration Easter Egg Button */
+    .footer-celebrate-wrap {
+      max-width: 1400px; margin: 1.75rem auto 0; padding-top: 1.5rem;
+      border-top: 1px dashed var(--bg-card-border);
+      display: flex; justify-content: center; align-items: center;
+    }
+    .btn-footer-celebrate {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1.6rem; border-radius: 99px;
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      color: var(--text-main); text-decoration: none;
+      font-size: 0.88rem; font-weight: 700;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-footer-celebrate:hover {
+      transform: translateY(-2px);
+      border-color: #F59E0B;
+      background: var(--bg-card-hover);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+      color: var(--text-main);
+    }
+    .celebrate-icon-bounce {
+      display: inline-block; font-size: 1.15rem;
+      animation: bounceCelebrate 1.8s infinite ease-in-out;
+    }
+    @keyframes bounceCelebrate {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(12deg) scale(1.15); }
+    }
+    .celebrate-tag {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+      background: rgba(245, 158, 11, 0.12); color: #D97706;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.18rem 0.6rem; border-radius: 99px;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    body.theme-dark .celebrate-tag {
+      background: rgba(251, 191, 36, 0.15); color: #FBBF24;
+      border-color: rgba(251, 191, 36, 0.35);
+    }
 
     /* Scroll Animations */
     .fade-in {
@@ -1347,6 +1389,7 @@
           <li><a href="#background">Market Background</a></li>
           <li><a href="#reasoning">Strategic Reasoning</a></li>
           <li><a href="#pricing">Pricing Guide</a></li>
+          <li><a href="celebrate.html" style="color:var(--text-main); font-weight:700; display:inline-flex; align-items:center; gap:0.35rem;">🎉 Celebration Room</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1371,6 +1414,14 @@
     <div class="footer-bottom">
       <div>&copy; 2026 HydroChamber. Digital Business and Application Project.</div>
       <div>Standard 304 Stainless Steel • Thai FDA Notification No. 435 • SDoC Class B Passive NFC</div>
+    </div>
+    <div class="footer-celebrate-wrap">
+      <a href="celebrate.html" class="btn-footer-celebrate" id="footerCelebrateBtn" title="Visit Thank You & Celebration Page">
+        <span class="celebrate-icon-bounce">🎉</span>
+        <span class="celebrate-text">A Special Thank You & Celebration</span>
+        <span class="celebrate-tag">🐱 Dancing Banana Cats</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
   </footer>
 
@@ -1779,13 +1830,28 @@
           })
         },
         {
+          id: 'celebrate',
+          keywords: ['celebrat', 'cat', 'dance', 'banana', 'room', 'party', 'แมว', 'เต้น', 'ฉลอง', 'บานาน่า', 'กล้วย', 'easter egg'],
+          weight: 3,
+          response: () => ({
+            text: "🎉 Step into our <strong>Milestone Celebration Room</strong>! Enjoy happy dancing cats, banana cats, interactive confetti cannons, and a special thank-you note for Kasem Bundit University (KBU) 2026!",
+            actionHTML: `
+              <div class="chat-quick-chips">
+                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; background:var(--btn-primary-bg); color:var(--btn-primary-text);">🎉 Open Celebration Room</a>
+                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">฿590 Student Offer</button>
+              </div>
+            `
+          })
+        },
+        {
           id: 'thanks',
           keywords: ['thank', 'thx', 'cool', 'awesome', 'great', 'nice', 'ok', 'bye', 'ขอบคุณ', 'ขอบใจ', 'ดีมาก', 'เจ๋ง', 'เยี่ยม'],
           weight: 2,
           response: () => ({
-            text: "You're very welcome! Feel free to ask if you need anything else or tap below to explore!",
+            text: "You're very welcome! Tap below to explore our pricing or check out our special Celebration Room with dancing banana cats! 🎉🐱",
             actionHTML: `
               <div class="chat-quick-chips">
+                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; border-color:#F59E0B;">🎉 Dancing Cats Celebration</a>
                 <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
                 <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
               </div>
