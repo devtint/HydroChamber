@@ -65,26 +65,26 @@
       align-items: center;
     }
 
-    .btn-back {
-      display: inline-flex;
+    .brand-logo {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.3rem;
-      border-radius: 99px;
-      background: var(--btn-primary-bg);
-      color: var(--btn-primary-text);
-      font-size: 0.9rem;
-      font-weight: 700;
+      gap: 0.6rem;
       text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       user-select: none;
     }
-    .btn-back:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
-      opacity: 0.95;
+    .brand-logo img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
     }
+    .logo-dark-mode { display: none; }
+    body.theme-dark .logo-light-mode { display: none; }
+    body.theme-dark .logo-dark-mode { display: inline-block; }
 
     .btn-theme {
       width: 40px;
@@ -116,22 +116,18 @@
       text-align: center;
     }
 
-    /* Thank You Text */
+    /* Thank You Text Only */
     .thank-you-title {
       font-family: var(--font-heading);
-      font-size: clamp(3rem, 8vw, 5.2rem);
+      font-size: clamp(3.2rem, 8.5vw, 5.4rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       line-height: 1.1;
       background: linear-gradient(135deg, #F59E0B 0%, #EC4899 50%, #6366F1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       user-select: none;
-    }
-
-    .action-row {
-      margin-bottom: 2.5rem;
     }
 
     /* Cats Display: NO CARDS, CATS ONLY, NO TEXT */
@@ -142,7 +138,7 @@
       gap: 2.5rem;
       width: 100%;
       max-width: 960px;
-      margin: 1.5rem auto 3rem;
+      margin: 0 auto 3rem;
       flex-wrap: wrap;
     }
 
@@ -164,9 +160,7 @@
       transform: scale(1.12) translateY(-6px);
     }
 
-    .bottom-action {
-      margin-top: 1rem;
-    }
+    /* The Single Go Back to Website Button */
     .btn-back-large {
       display: inline-flex;
       align-items: center;
@@ -207,11 +201,12 @@
   <!-- Confetti Canvas -->
   <canvas id="confettiCanvas"></canvas>
 
-  <!-- Top Bar with Go Back to Website Button -->
+  <!-- Clean Top Bar with Logo and Theme Toggle -->
   <header>
-    <a href="index.html" class="btn-back">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      <span>Go back to website</span>
+    <a href="index.html" class="brand-logo" title="Back to HydroChamber Main Website">
+      <img src="assets/hydrochamber_logo_light.png" alt="HydroChamber Logo" class="logo-light-mode">
+      <img src="assets/hydrochamber_logo_dark.png" alt="HydroChamber Logo" class="logo-dark-mode">
+      Hydro<span>Chamber</span>
     </a>
 
     <!-- Theme Switcher -->
@@ -233,16 +228,9 @@
     </button>
   </header>
 
-  <!-- Main Content: ONLY THANK YOU TEXT & DANCING CATS & GO BACK BUTTON -->
+  <!-- Main Content: ONLY THANK YOU TEXT, DANCING CATS, AND EXACTLY ONE GO BACK TO WEBSITE BUTTON -->
   <main>
     <h1 class="thank-you-title">Thank You! 🎉</h1>
-
-    <div class="action-row">
-      <a href="index.html" class="btn-back">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>Go back to website</span>
-      </a>
-    </div>
 
     <!-- Cats ONLY: No cards, no text, pure transparent dancing cats -->
     <div class="cats-display">
@@ -251,12 +239,11 @@
       <img src="https://media1.tenor.com/m/d-HSksPE2dMAAAAC/cat-dance-happy-dance-cat.gif" alt="" class="pure-cat-gif" onclick="launchConfetti(40)">
     </div>
 
-    <div class="bottom-action">
-      <a href="index.html" class="btn-back-large">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>Go back to website</span>
-      </a>
-    </div>
+    <!-- The Single Go Back to Website Button -->
+    <a href="index.html" class="btn-back-large" id="btnGoBack">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>Go back to website</span>
+    </a>
   </main>
 
   <script>
