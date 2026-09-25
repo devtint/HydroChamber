@@ -594,30 +594,66 @@
       background: #0071E3; color: #FFFFFF; font-size: 0.7rem; font-weight: 800;
       padding: 0 4px; font-family: var(--font-mono);
     }
-    .hero-cta-row {
-      display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-top: 1.5rem;
+    .cart-sheerid-panel {
+      margin-top: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: rgba(128, 128, 128, 0.05);
+      border: 1px solid var(--bg-card-border);
+      transition: all 0.2s ease;
     }
-    .btn-hero-primary {
-      display: inline-flex; align-items: center; gap: 0.55rem;
-      padding: 0.85rem 1.6rem; border-radius: 99px;
+    .sheerid-panel-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+    .sheerid-brand-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.82rem; font-weight: 700; color: var(--text-main);
+      font-family: var(--font-heading);
+    }
+    .sheerid-status-tag {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+      padding: 0.15rem 0.5rem; border-radius: 99px; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sheerid-status-tag.unverified {
+      background: rgba(245, 158, 11, 0.15); color: #D97706;
+    }
+    .sheerid-status-tag.verified {
+      background: rgba(16, 185, 129, 0.15); color: #10B981;
+    }
+    .sheerid-panel-text {
+      font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.6rem;
+    }
+    .btn-sheerid-action {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+      width: 100%; padding: 0.55rem 0.9rem; border-radius: 8px;
       background: var(--btn-primary-bg); color: var(--btn-primary-text);
-      font-size: 0.92rem; font-weight: 700; border: 1px solid var(--btn-primary-bg);
-      cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      font-size: 0.8rem; font-weight: 700; border: 1px solid var(--btn-primary-bg);
+      cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-hero-primary:hover {
-      transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    .btn-sheerid-action:hover {
+      opacity: 0.9; transform: translateY(-1px);
     }
-    .btn-hero-secondary {
-      display: inline-flex; align-items: center; gap: 0.55rem;
-      padding: 0.85rem 1.4rem; border-radius: 99px;
-      background: var(--bg-card); color: var(--text-main);
-      font-size: 0.92rem; font-weight: 700; border: 1px solid var(--bg-card-border);
-      cursor: pointer; transition: all 0.2s ease;
+    .btn-sheerid-action:disabled {
+      opacity: 0.6; cursor: wait; transform: none;
     }
-    .btn-hero-secondary:hover {
-      border-color: var(--bg-card-border-active); background: var(--bg-card-hover);
+    .sheerid-verified-box {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+      padding: 0.4rem 0.2rem 0.1rem;
     }
+    .sheerid-verified-info { flex: 1; }
+    .sheerid-verified-name {
+      font-size: 0.82rem; font-weight: 700; color: #10B981;
+    }
+    .sheerid-verified-school {
+      font-size: 0.74rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.1rem;
+    }
+    .sheerid-btn-recheck {
+      font-size: 0.72rem; color: var(--text-muted); background: none; border: none;
+      cursor: pointer; text-decoration: underline; padding: 0.2rem;
+    }
+    .sheerid-btn-recheck:hover { color: var(--text-main); }
     .btn-table-order {
       padding: 0.45rem 0.9rem; border-radius: 8px;
       background: var(--btn-primary-bg); color: var(--btn-primary-text);
@@ -1137,6 +1173,33 @@
             </button>
           </div>
 
+          <!-- Simulated SheerID Student Verification -->
+          <div class="cart-sheerid-panel" id="cartSheerIdPanel">
+            <div class="sheerid-panel-top">
+              <div class="sheerid-brand-badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <span>SheerID Student Verification</span>
+              </div>
+              <span class="sheerid-status-tag unverified" id="sheerIdStatusTag">Action Required</span>
+            </div>
+            <div class="sheerid-panel-body" id="sheerIdUnverifiedBody">
+              <p class="sheerid-panel-text">Confirm university enrollment to apply the subsidized ฿590 rate (saves ฿100 off Pro).</p>
+              <button type="button" class="btn-sheerid-action" id="btnSheerIdAction" onclick="simulateSheerIdVerify()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="sheerIdActionBtnText">Verify with SheerID</span>
+              </button>
+            </div>
+            <div class="sheerid-panel-body verified" id="sheerIdVerifiedBody" style="display:none;">
+              <div class="sheerid-verified-box">
+                <div class="sheerid-verified-info">
+                  <div class="sheerid-verified-name">Student Eligibility Confirmed</div>
+                  <div class="sheerid-verified-school">Kasem Bundit University (KBU) • Active 2026</div>
+                </div>
+                <button type="button" class="sheerid-btn-recheck" onclick="simulateSheerIdReset()" title="Reset verification">Re-verify</button>
+              </div>
+            </div>
+          </div>
+
           <!-- Color Selector -->
           <div class="cart-section-label">Select Color</div>
           <div class="cart-color-row">
@@ -1248,6 +1311,10 @@
           <div class="receipt-row">
             <span>Color</span>
             <strong id="receiptItemColor">Matcha Sage</strong>
+          </div>
+          <div class="receipt-row" id="receiptSheerIdRow">
+            <span>Student Verification</span>
+            <strong id="receiptItemSheerId" style="color:#10B981;">SheerID Confirmed (KBU 2026)</strong>
           </div>
           <div class="receipt-row">
             <span>Laser Engraving</span>
@@ -1435,15 +1502,6 @@
         </button>
       </div>
 
-      <div class="hero-cta-row">
-        <button type="button" class="btn-hero-primary" onclick="openCartModal('student')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-          <span>Order Student Edition (฿590)</span>
-        </button>
-        <button type="button" class="btn-hero-secondary" onclick="openCartModal('pro')">
-          <span>Flagship Pro (฿690)</span>
-        </button>
-      </div>
 
       <div class="hero-stats-row">
         <div class="hero-stat-item">
@@ -1977,7 +2035,8 @@
       engravingText: '',
       podsQty: 0,
       lidQty: 0,
-      paymentMethod: 'promptpay'
+      paymentMethod: 'promptpay',
+      sheerIdVerified: false
     };
 
     const EDITION_PRICES = {
@@ -2047,6 +2106,41 @@
       if (activeEl) activeEl.classList.add('active');
     }
 
+    function simulateSheerIdVerify() {
+      const btn = document.getElementById('btnSheerIdAction');
+      const text = document.getElementById('sheerIdActionBtnText');
+      if (btn) btn.disabled = true;
+      if (text) text.textContent = 'Verifying SheerID credentials...';
+
+      setTimeout(() => {
+        CART_STATE.sheerIdVerified = true;
+        const unverified = document.getElementById('sheerIdUnverifiedBody');
+        const verified = document.getElementById('sheerIdVerifiedBody');
+        const tag = document.getElementById('sheerIdStatusTag');
+        if (unverified) unverified.style.display = 'none';
+        if (verified) verified.style.display = 'block';
+        if (tag) {
+          tag.textContent = 'Verified';
+          tag.className = 'sheerid-status-tag verified';
+        }
+        if (btn) btn.disabled = false;
+        if (text) text.textContent = 'Verify with SheerID';
+      }, 550);
+    }
+
+    function simulateSheerIdReset() {
+      CART_STATE.sheerIdVerified = false;
+      const unverified = document.getElementById('sheerIdUnverifiedBody');
+      const verified = document.getElementById('sheerIdVerifiedBody');
+      const tag = document.getElementById('sheerIdStatusTag');
+      if (unverified) unverified.style.display = 'block';
+      if (verified) verified.style.display = 'none';
+      if (tag) {
+        tag.textContent = 'Action Required';
+        tag.className = 'sheerid-status-tag unverified';
+      }
+    }
+
     function updateCartUI() {
       ['student', 'pro', 'bundle'].forEach(k => {
         const btn = document.getElementById('editionBtn' + k.charAt(0).toUpperCase() + k.slice(1));
@@ -2058,6 +2152,12 @@
           }
         }
       });
+
+      // SheerID Panel visibility for Student Edition
+      const sheerIdPanel = document.getElementById('cartSheerIdPanel');
+      if (sheerIdPanel) {
+        sheerIdPanel.style.display = (CART_STATE.edition === 'student') ? 'block' : 'none';
+      }
 
       const colorMap = { matcha: 'colorBtnMatcha', oatmilk: 'colorBtnOatmilk', lavender: 'colorBtnLavender', charcoal: 'colorBtnCharcoal' };
       Object.keys(colorMap).forEach(k => {
@@ -2116,10 +2216,24 @@
       const orderRef = '#HC-2026-' + Math.floor(1000 + Math.random() * 9000);
       const grandTotal = (EDITION_PRICES[CART_STATE.edition].price * CART_STATE.bottleQty) + (169 * CART_STATE.podsQty) + (220 * CART_STATE.lidQty);
 
+      if (CART_STATE.edition === 'student' && !CART_STATE.sheerIdVerified) {
+        CART_STATE.sheerIdVerified = true;
+      }
+
       document.getElementById('receiptOrderId').textContent = orderRef;
       document.getElementById('receiptItemName').textContent = CART_STATE.bottleQty + 'x ' + EDITION_PRICES[CART_STATE.edition].name;
       document.getElementById('receiptItemColor').textContent = CART_STATE.colorName;
       document.getElementById('receiptItemEngraving').textContent = CART_STATE.engravingText ? CART_STATE.engravingText.toUpperCase() : 'None (Plain SUS304)';
+
+      const sheerIdRow = document.getElementById('receiptSheerIdRow');
+      if (sheerIdRow) {
+        if (CART_STATE.edition === 'student') {
+          sheerIdRow.style.display = 'flex';
+          document.getElementById('receiptItemSheerId').textContent = 'SheerID Confirmed (KBU 2026)';
+        } else {
+          sheerIdRow.style.display = 'none';
+        }
+      }
 
       const addonsRow = document.getElementById('receiptAddonsRow');
       const addonsText = [];
