@@ -424,6 +424,227 @@
     }
     .drawer-overlay.active { opacity: 1; pointer-events: all; }
 
+    /* Cart & Checkout Modal Styles (Zero Emojis) */
+    .cart-modal-card {
+      width: 600px;
+    }
+    .cart-tag-pill {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      padding: 0.2rem 0.6rem; border-radius: 4px; letter-spacing: 1px;
+    }
+    .cart-product-box {
+      background: rgba(128, 128, 128, 0.05);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 20px; padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .cart-product-top {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;
+    }
+    .cart-thumb-img {
+      width: 64px; height: 64px; object-fit: contain;
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 14px; padding: 4px; flex-shrink: 0;
+    }
+    .cart-edition-price {
+      font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800;
+      color: var(--text-main); margin-top: 0.25rem;
+    }
+    .cart-qty-ctrl {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+      border-radius: 10px; padding: 0.25rem 0.4rem;
+    }
+    .qty-btn {
+      width: 28px; height: 28px; border-radius: 6px;
+      border: 1px solid var(--bg-card-border);
+      background: rgba(128, 128, 128, 0.08); color: var(--text-main);
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .qty-btn:hover {
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border-color: var(--btn-primary-bg);
+    }
+    .qty-val {
+      min-width: 24px; text-align: center;
+      font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700;
+      color: var(--text-main);
+    }
+    .cart-section-label {
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.75px; color: var(--text-muted);
+      margin-bottom: 0.5rem; margin-top: 0.85rem;
+    }
+    .cart-edition-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;
+    }
+    .cart-edition-card {
+      background: var(--bg-card); border: 1.5px solid var(--bg-card-border);
+      border-radius: 12px; padding: 0.75rem 0.6rem; text-align: center;
+      cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .cart-edition-card:hover {
+      border-color: var(--text-muted);
+    }
+    .cart-edition-card.active {
+      border-color: var(--btn-primary-bg);
+      background: rgba(128, 128, 128, 0.08);
+      box-shadow: 0 0 0 1px var(--btn-primary-bg);
+    }
+    .edition-badge {
+      font-family: var(--font-mono); font-size: 0.65rem; font-weight: 800;
+      color: var(--text-muted); text-transform: uppercase;
+    }
+    .cart-edition-card.active .edition-badge {
+      color: var(--text-main);
+    }
+    .edition-title {
+      font-size: 0.8rem; font-weight: 700; color: var(--text-main);
+    }
+    .edition-cost {
+      font-family: var(--font-heading); font-size: 0.95rem; font-weight: 800;
+      color: var(--text-main);
+    }
+    .cart-color-row {
+      display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;
+    }
+    .cart-color-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .cart-color-dot:hover { transform: scale(1.1); }
+    .cart-color-dot.active {
+      border-color: var(--text-main); transform: scale(1.12);
+      box-shadow: 0 0 0 2px var(--bg-card);
+    }
+    .cart-text-input {
+      width: 100%; padding: 0.65rem 0.9rem; border-radius: 10px;
+      border: 1px solid var(--bg-card-border); background: var(--bg-card);
+      color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem;
+      letter-spacing: 0.5px; text-transform: uppercase; outline: none;
+    }
+    .cart-text-input:focus { border-color: var(--btn-primary-bg); }
+    .cart-addons-list {
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .cart-addon-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; border-radius: 14px;
+      background: var(--bg-card); border: 1px solid var(--bg-card-border);
+    }
+    .cart-payment-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+    }
+    .cart-pay-option {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      padding: 0.65rem 0.5rem; border-radius: 10px; border: 1px solid var(--bg-card-border);
+      background: var(--bg-card); font-size: 0.8rem; font-weight: 700; color: var(--text-main);
+      cursor: pointer; transition: all 0.15s ease; user-select: none;
+    }
+    .cart-pay-option input { display: none; }
+    .cart-pay-option.active {
+      border-color: var(--btn-primary-bg);
+      background: rgba(128, 128, 128, 0.08);
+      box-shadow: 0 0 0 1px var(--btn-primary-bg);
+    }
+    .cart-summary-box {
+      border-top: 1px dashed var(--bg-card-border);
+      padding-top: 1rem; margin-top: 1.25rem;
+      display: flex; flex-direction: column; gap: 0.45rem;
+    }
+    .cart-summary-row {
+      display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);
+    }
+    .cart-summary-row.total-row {
+      font-size: 1.15rem; font-weight: 800; color: var(--text-main);
+      border-top: 1px solid var(--bg-card-border); padding-top: 0.65rem; margin-top: 0.35rem;
+      font-family: var(--font-heading);
+    }
+    .btn-checkout-submit {
+      width: 100%; padding: 0.95rem 1.5rem; border-radius: 99px;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      font-family: var(--font-heading); font-size: 1rem; font-weight: 800;
+      border: 1px solid var(--btn-primary-bg); cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.2rem; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+    .btn-checkout-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      opacity: 0.95;
+    }
+    .btn-header-cart {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.45rem 0.9rem; border-radius: 99px;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border: 1px solid var(--btn-primary-bg);
+      font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s ease; flex-shrink: 0;
+    }
+    .btn-header-cart:hover {
+      transform: scale(1.04); opacity: 0.92;
+    }
+    .cart-badge-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 18px; height: 18px; border-radius: 99px;
+      background: #0071E3; color: #FFFFFF; font-size: 0.7rem; font-weight: 800;
+      padding: 0 4px; font-family: var(--font-mono);
+    }
+    .hero-cta-row {
+      display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-top: 1.5rem;
+    }
+    .btn-hero-primary {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.85rem 1.6rem; border-radius: 99px;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      font-size: 0.92rem; font-weight: 700; border: 1px solid var(--btn-primary-bg);
+      cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    }
+    .btn-hero-secondary {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.85rem 1.4rem; border-radius: 99px;
+      background: var(--bg-card); color: var(--text-main);
+      font-size: 0.92rem; font-weight: 700; border: 1px solid var(--bg-card-border);
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .btn-hero-secondary:hover {
+      border-color: var(--bg-card-border-active); background: var(--bg-card-hover);
+    }
+    .btn-table-order {
+      padding: 0.45rem 0.9rem; border-radius: 8px;
+      background: var(--btn-primary-bg); color: var(--btn-primary-text);
+      border: 1px solid var(--btn-primary-bg);
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      white-space: nowrap; transition: all 0.15s ease;
+    }
+    .btn-table-order:hover {
+      opacity: 0.88; transform: translateY(-1px);
+    }
+    .receipt-icon-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15); color: #10B981;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .receipt-details-box {
+      background: var(--bg-surface); border: 1px solid var(--bg-card-border);
+      border-radius: 16px; padding: 1.25rem; text-align: left;
+      display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem;
+    }
+    .receipt-row {
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-muted);
+    }
+    .receipt-row strong { color: var(--text-main); }
+
     /* Footer */
     footer { 
       border-top: 1px solid var(--bg-card-border); padding: 5rem 2.5rem 3rem; 
@@ -866,6 +1087,193 @@
     </div>
   </div>
 
+  <!-- Simulated Cart & Checkout Modal (Zero Emojis) -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal-card cart-modal-card">
+      <button class="modal-close-btn" onclick="closeAllDrawers()">&times;</button>
+      
+      <div id="cartFormView">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.4rem;">
+          <span class="cart-tag-pill">CHECKOUT</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">SIMULATED ORDER DEMO</span>
+        </div>
+        <h3 class="modal-title" style="margin-bottom:0.25rem;">Bag &amp; Checkout</h3>
+        <p class="modal-sub" style="margin-bottom:1.25rem;">Select your bottle configuration, quantity, and add-ons.</p>
+
+        <!-- Main Product Card -->
+        <div class="cart-product-box">
+          <div class="cart-product-top">
+            <img src="assets/bottle_matcha.png" alt="Selected Bottle" id="cartBottleThumb" class="cart-thumb-img">
+            <div style="flex:1;">
+              <div style="font-weight:700; font-size:1rem; color:var(--text-main);" id="cartProductTitle">HydroChamber 750ml (Student Edition)</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); margin-top:0.15rem;" id="cartColorLabel">Color: Matcha Sage</div>
+              <div class="cart-edition-price" id="cartBottleLinePrice">฿590</div>
+            </div>
+            <!-- Quantity Counter -->
+            <div class="cart-qty-ctrl">
+              <button type="button" class="qty-btn" onclick="changeBottleQty(-1)" aria-label="Decrease quantity">&minus;</button>
+              <span class="qty-val" id="cartBottleQty">1</span>
+              <button type="button" class="qty-btn" onclick="changeBottleQty(1)" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <!-- Edition Selector -->
+          <div class="cart-section-label">Select Edition</div>
+          <div class="cart-edition-grid">
+            <button type="button" class="cart-edition-card active" id="editionBtnStudent" onclick="selectCartEdition('student')">
+              <span class="edition-badge">SheerID</span>
+              <span class="edition-title">Student Edition</span>
+              <span class="edition-cost">฿590</span>
+            </button>
+            <button type="button" class="cart-edition-card" id="editionBtnPro" onclick="selectCartEdition('pro')">
+              <span class="edition-badge">Standard</span>
+              <span class="edition-title">Flagship Pro</span>
+              <span class="edition-cost">฿690</span>
+            </button>
+            <button type="button" class="cart-edition-card" id="editionBtnBundle" onclick="selectCartEdition('bundle')">
+              <span class="edition-badge">Bundle</span>
+              <span class="edition-title">Starter Bundle</span>
+              <span class="edition-cost">฿799</span>
+            </button>
+          </div>
+
+          <!-- Color Selector -->
+          <div class="cart-section-label">Select Color</div>
+          <div class="cart-color-row">
+            <button type="button" class="cart-color-dot active" id="colorBtnMatcha" style="background:#849B89;" title="Matcha Sage" onclick="selectCartColor('matcha', 'Matcha Sage', 'assets/bottle_matcha.png')"></button>
+            <button type="button" class="cart-color-dot" id="colorBtnOatmilk" style="background:#E6DCCF;" title="Oat Milk Cream" onclick="selectCartColor('oatmilk', 'Oat Milk Cream', 'assets/bottle_oatmilk.png')"></button>
+            <button type="button" class="cart-color-dot" id="colorBtnLavender" style="background:#B8B4D4;" title="Lavender Haze" onclick="selectCartColor('lavender', 'Lavender Haze', 'assets/bottle_lavender.png')"></button>
+            <button type="button" class="cart-color-dot" id="colorBtnCharcoal" style="background:#2C3038;" title="Slate Charcoal" onclick="selectCartColor('charcoal', 'Slate Charcoal', 'assets/bottle_charcoal.png')"></button>
+          </div>
+
+          <!-- Free Laser Engraving -->
+          <div class="cart-section-label">Complimentary Laser Engraving (Free)</div>
+          <input type="text" class="cart-text-input" id="cartEngravingInput" maxlength="16" placeholder="Your name or Student ID (max 16 chars)" oninput="updateEngravingText(this.value)">
+        </div>
+
+        <!-- Add-ons Section -->
+        <div class="cart-section-label">Add-ons</div>
+        <div class="cart-addons-list">
+          <!-- Add-on 1: Pods -->
+          <div class="cart-addon-item">
+            <div style="flex:1;">
+              <div style="font-weight:700; font-size:0.88rem; color:var(--text-main);">Focus Pods (10x Pack)</div>
+              <div style="font-size:0.78rem; color:var(--text-muted);">Electrolytes + L-Theanine</div>
+              <div style="font-family:var(--font-heading); font-weight:700; font-size:0.88rem; color:var(--text-main); margin-top:0.2rem;">+฿169 each</div>
+            </div>
+            <div class="cart-qty-ctrl">
+              <button type="button" class="qty-btn" onclick="changePodsQty(-1)" aria-label="Decrease pods">&minus;</button>
+              <span class="qty-val" id="cartPodsQty">0</span>
+              <button type="button" class="qty-btn" onclick="changePodsQty(1)" aria-label="Increase pods">+</button>
+            </div>
+          </div>
+
+          <!-- Add-on 2: Replacement Lid -->
+          <div class="cart-addon-item">
+            <div style="flex:1;">
+              <div style="font-weight:700; font-size:0.88rem; color:var(--text-main);">Spare MagSafe Lid Set</div>
+              <div style="font-size:0.78rem; color:var(--text-muted);">Tritan Dual-Sip + 18x N52 ring</div>
+              <div style="font-family:var(--font-heading); font-weight:700; font-size:0.88rem; color:var(--text-main); margin-top:0.2rem;">+฿220 each</div>
+            </div>
+            <div class="cart-qty-ctrl">
+              <button type="button" class="qty-btn" onclick="changeLidQty(-1)" aria-label="Decrease lid">&minus;</button>
+              <span class="qty-val" id="cartLidQty">0</span>
+              <button type="button" class="qty-btn" onclick="changeLidQty(1)" aria-label="Increase lid">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated Payment Method -->
+        <div class="cart-section-label">Simulated Payment Method</div>
+        <div class="cart-payment-grid">
+          <label class="cart-pay-option active" id="payOptPromptPay">
+            <input type="radio" name="simPayMethod" value="promptpay" checked onchange="selectPaymentMethod('promptpay')">
+            <span>PromptPay QR</span>
+          </label>
+          <label class="cart-pay-option" id="payOptCard">
+            <input type="radio" name="simPayMethod" value="card" onchange="selectPaymentMethod('card')">
+            <span>Credit / Debit</span>
+          </label>
+          <label class="cart-pay-option" id="payOptTrueMoney">
+            <input type="radio" name="simPayMethod" value="truemoney" onchange="selectPaymentMethod('truemoney')">
+            <span>TrueMoney</span>
+          </label>
+        </div>
+
+        <!-- Summary & Order CTA -->
+        <div class="cart-summary-box">
+          <div class="cart-summary-row">
+            <span>Subtotal</span>
+            <span id="summarySubtotal">฿590</span>
+          </div>
+          <div class="cart-summary-row">
+            <span>Nationwide Express Shipping</span>
+            <span>Free (Flash Express)</span>
+          </div>
+          <div class="cart-summary-row total-row">
+            <span>Total</span>
+            <span id="summaryGrandTotal">฿590</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn-checkout-submit" onclick="submitSimulatedOrder()" id="btnSubmitSimOrder">
+          <span>Place Simulated Order</span>
+          <span id="btnSubmitPrice">฿590</span>
+        </button>
+
+        <div style="font-size:0.75rem; color:var(--text-dim); text-align:center; margin-top:0.85rem;">
+          Simulation demonstration for university project. No actual payment processed.
+        </div>
+      </div>
+
+      <!-- Receipt Confirmation View (Hidden by default) -->
+      <div id="cartReceiptView" style="display:none; text-align:center; padding:0.5rem 0;">
+        <div class="receipt-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+        </div>
+        <h3 class="modal-title" style="margin-bottom:0.35rem;">Order Confirmed</h3>
+        <p class="modal-sub" style="margin-bottom:1.5rem;">Simulated order recorded for digital business demonstration.</p>
+
+        <div class="receipt-details-box">
+          <div class="receipt-row">
+            <span>Reference ID</span>
+            <strong id="receiptOrderId" style="font-family:var(--font-mono);">#HC-2026-8921</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Item</span>
+            <strong id="receiptItemName">HydroChamber Student Edition</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Color</span>
+            <strong id="receiptItemColor">Matcha Sage</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Laser Engraving</span>
+            <strong id="receiptItemEngraving">None (Plain SUS304)</strong>
+          </div>
+          <div class="receipt-row" id="receiptAddonsRow" style="display:none;">
+            <span>Add-ons</span>
+            <strong id="receiptItemAddons">-</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Payment</span>
+            <strong id="receiptPayMethod">PromptPay (Simulated)</strong>
+          </div>
+          <div class="receipt-row" style="border-top:1px solid var(--bg-card-border); padding-top:0.75rem; margin-top:0.5rem;">
+            <span>Total Paid</span>
+            <strong id="receiptTotalAmount" style="font-size:1.1rem; color:var(--text-main);">฿590</strong>
+          </div>
+        </div>
+
+        <button type="button" class="btn-checkout-submit" style="margin-top:1.5rem; justify-content:center;" onclick="closeReceiptAndReset()">
+          Continue Browsing
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Header -->
   <header>
     <a href="#hero" class="brand-logo">
@@ -902,6 +1310,12 @@
         </svg>
       </button>
 
+      <button class="btn-header-cart" onclick="openCartModal()" id="headerCartBtn" aria-label="Open Shopping Bag">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span>Bag</span>
+        <span class="cart-badge-count" id="cartBadgeCount">1</span>
+      </button>
+
       <button class="btn-contact" onclick="openContactModal()">Customer Care</button>
 
       <!-- Mobile Menu Hamburger Button -->
@@ -928,6 +1342,7 @@
       </div>
       <div class="mobile-nav-links">
         <a href="#hero" onclick="closeMobileMenu()">Overview</a>
+        <a href="javascript:void(0)" onclick="closeMobileMenu(); openCartModal('student');" style="color:var(--text-main); font-weight:700;">Bag &amp; Checkout (฿590)</a>
         <a href="#pricing" onclick="closeMobileMenu()">Product Pricing (฿590 - ฿799)</a>
         <a href="#magsafe" onclick="closeMobileMenu()">MagSafe Phone Stand</a>
         <a href="#architecture" onclick="closeMobileMenu()">Modular Architecture</a>
@@ -948,12 +1363,12 @@
       <div class="mobile-sticky-title">HydroChamber Pro</div>
       <div class="mobile-sticky-price">฿690 <span class="mobile-sticky-sub">(Student ฿590)</span></div>
     </div>
-    <button class="mobile-sticky-btn" onclick="openProposalModal()">Pricing Matrix</button>
+    <button class="mobile-sticky-btn" onclick="openCartModal('student')">Order (฿590)</button>
   </div>
 
   <!-- HydroBot AI Assistant Floating Launcher & Window -->
   <div class="chat-widget-launcher" id="chatLauncher" onclick="toggleChatWindow()">
-    <span class="chat-launcher-badge">Ask HydroBot ✦</span>
+    <span class="chat-launcher-badge">Ask HydroBot</span>
     <button class="chat-launcher-btn" aria-label="Open HydroBot Assistant">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -967,7 +1382,7 @@
         <div class="chat-avatar">HB</div>
         <div>
           <div class="chat-title">HydroBot AI</div>
-          <div class="chat-status"><span class="chat-status-dot"></span> Online ✦ Instant 0ms</div>
+          <div class="chat-status"><span class="chat-status-dot"></span> Online • Instant 0ms</div>
         </div>
       </div>
       <button class="modal-close-btn" onclick="toggleChatWindow()">&times;</button>
@@ -1017,6 +1432,16 @@
         </button>
         <button class="swatch-btn" onclick="switchShowcaseColor('charcoal', 'Slate Charcoal', 'assets/bottle_charcoal.png', this)">
           <span class="swatch-dot" style="background:#2C3038;"></span> Slate Charcoal
+        </button>
+      </div>
+
+      <div class="hero-cta-row">
+        <button type="button" class="btn-hero-primary" onclick="openCartModal('student')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span>Order Student Edition (฿590)</span>
+        </button>
+        <button type="button" class="btn-hero-secondary" onclick="openCartModal('pro')">
+          <span>Flagship Pro (฿690)</span>
         </button>
       </div>
 
@@ -1131,6 +1556,7 @@
             <th>Retail Price (THB)</th>
             <th>Package Features & Specs</th>
             <th>Target & Eligibility</th>
+            <th>Order</th>
           </tr>
         </thead>
         <tbody>
@@ -1142,6 +1568,7 @@
             <td class="price-highlight">฿590.00</td>
             <td>Full 750ml SUS304 double-wall bottle + MagSafe hinge lid + PP vortex mesh. Free laser engraving included.</td>
             <td><span class="feature-badge">Subsidized Student Pricing</span> Verified via SheerID.</td>
+            <td><button type="button" class="btn-table-order" onclick="openCartModal('student')">Order (฿590)</button></td>
           </tr>
           <tr>
             <td>
@@ -1151,6 +1578,7 @@
             <td class="price-highlight">฿690.00</td>
             <td>750ml bottle, MagSafe hinge lid, NTAG213 NFC tag, 60ml dry storage base, Kraft cylinder tube.</td>
             <td><span class="feature-badge">Flagship Standard</span> Open to all customers nationwide.</td>
+            <td><button type="button" class="btn-table-order" onclick="openCartModal('pro')">Order (฿690)</button></td>
           </tr>
           <tr>
             <td>
@@ -1160,6 +1588,7 @@
             <td class="price-highlight">฿799.00</td>
             <td>Flagship Pro bottle + 10x Clean Cheat Focus Pods + 1-Month Hydration App access.</td>
             <td><span class="feature-badge">Best Value Package</span> Complete starter ecosystem.</td>
+            <td><button type="button" class="btn-table-order" onclick="openCartModal('bundle')">Order (฿799)</button></td>
           </tr>
           <tr>
             <td>
@@ -1169,6 +1598,7 @@
             <td class="price-highlight">฿169.00</td>
             <td>Single-serve electrolyte & L-Theanine stick packs designed for silent honeycomb grid dissolution.</td>
             <td><span class="feature-badge">Official Refill</span> Dissolves effortlessly in water.</td>
+            <td><button type="button" class="btn-table-order" onclick="addAddonDirectly('pods')">Add Pods (฿169)</button></td>
           </tr>
           <tr>
             <td>
@@ -1178,6 +1608,7 @@
             <td class="price-highlight">฿220.00</td>
             <td>Spare Eastman Tritan dual-sip lid with 18x N52 magnetic ring, friction hinge, and silicone seals.</td>
             <td><span class="feature-badge">Spare Part Hardware</span> Fits all HydroChamber bottles.</td>
+            <td><button type="button" class="btn-table-order" onclick="addAddonDirectly('lid')">Add Lid (฿220)</button></td>
           </tr>
         </tbody>
       </table>
@@ -1389,7 +1820,7 @@
           <li><a href="#background">Market Background</a></li>
           <li><a href="#reasoning">Strategic Reasoning</a></li>
           <li><a href="#pricing">Pricing Guide</a></li>
-          <li><a href="celebrate.html" style="color:var(--text-main); font-weight:700; display:inline-flex; align-items:center; gap:0.35rem;">🎉 Celebration Room</a></li>
+          <li><a href="celebrate.html" style="color:var(--text-main); font-weight:700; display:inline-flex; align-items:center; gap:0.35rem;">Celebration Room</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1417,9 +1848,9 @@
     </div>
     <div class="footer-celebrate-wrap">
       <a href="celebrate.html" class="btn-footer-celebrate" id="footerCelebrateBtn" title="Visit Thank You & Celebration Page">
-        <span class="celebrate-icon-bounce">🎉</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <span class="celebrate-text">A Special Thank You & Celebration</span>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
   </footer>
@@ -1482,6 +1913,12 @@
 
       document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
       if (btnEl) btnEl.classList.add('active');
+
+      if (typeof CART_STATE !== 'undefined') {
+        CART_STATE.colorKey = key;
+        CART_STATE.colorName = name;
+        CART_STATE.colorImg = imgPath;
+      }
     }
 
     // --- MOBILE MENU CONTROLS ---
@@ -1523,9 +1960,191 @@
       document.getElementById('proposalModal').classList.remove('active');
       document.getElementById('contactModal').classList.remove('active');
       document.getElementById('termsModal').classList.remove('active');
+      const cartModal = document.getElementById('cartModal');
+      if (cartModal) cartModal.classList.remove('active');
       const mobileDrawer = document.getElementById('mobileNavDrawer');
       if (mobileDrawer) mobileDrawer.classList.remove('active');
       document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    // --- CART & SIMULATED CHECKOUT CONTROLS (Zero Emojis) ---
+    const CART_STATE = {
+      edition: 'student',
+      colorKey: 'matcha',
+      colorName: 'Matcha Sage',
+      colorImg: 'assets/bottle_matcha.png',
+      bottleQty: 1,
+      engravingText: '',
+      podsQty: 0,
+      lidQty: 0,
+      paymentMethod: 'promptpay'
+    };
+
+    const EDITION_PRICES = {
+      student: { name: 'Student Campus Edition', price: 590, badge: 'SheerID' },
+      pro: { name: 'Flagship HydroChamber Pro', price: 690, badge: 'Standard' },
+      bundle: { name: 'Phygital Starter Bundle', price: 799, badge: 'Bundle' }
+    };
+
+    function openCartModal(presetEdition) {
+      if (presetEdition && EDITION_PRICES[presetEdition]) {
+        CART_STATE.edition = presetEdition;
+      }
+      document.getElementById('cartFormView').style.display = 'block';
+      document.getElementById('cartReceiptView').style.display = 'none';
+
+      document.getElementById('cartModal').classList.add('active');
+      document.getElementById('drawerOverlay').classList.add('active');
+      updateCartUI();
+    }
+
+    function addAddonDirectly(type) {
+      if (type === 'pods') {
+        CART_STATE.podsQty = Math.max(1, CART_STATE.podsQty + 1);
+      } else if (type === 'lid') {
+        CART_STATE.lidQty = Math.max(1, CART_STATE.lidQty + 1);
+      }
+      openCartModal();
+    }
+
+    function selectCartEdition(editionKey) {
+      if (EDITION_PRICES[editionKey]) {
+        CART_STATE.edition = editionKey;
+        updateCartUI();
+      }
+    }
+
+    function selectCartColor(colorKey, colorName, colorImg) {
+      CART_STATE.colorKey = colorKey;
+      CART_STATE.colorName = colorName;
+      CART_STATE.colorImg = colorImg;
+      updateCartUI();
+    }
+
+    function changeBottleQty(delta) {
+      CART_STATE.bottleQty = Math.max(1, Math.min(20, CART_STATE.bottleQty + delta));
+      updateCartUI();
+    }
+
+    function changePodsQty(delta) {
+      CART_STATE.podsQty = Math.max(0, Math.min(20, CART_STATE.podsQty + delta));
+      updateCartUI();
+    }
+
+    function changeLidQty(delta) {
+      CART_STATE.lidQty = Math.max(0, Math.min(10, CART_STATE.lidQty + delta));
+      updateCartUI();
+    }
+
+    function updateEngravingText(val) {
+      CART_STATE.engravingText = val.trim();
+    }
+
+    function selectPaymentMethod(method) {
+      CART_STATE.paymentMethod = method;
+      document.querySelectorAll('.cart-pay-option').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById(method === 'promptpay' ? 'payOptPromptPay' : method === 'card' ? 'payOptCard' : 'payOptTrueMoney');
+      if (activeEl) activeEl.classList.add('active');
+    }
+
+    function updateCartUI() {
+      ['student', 'pro', 'bundle'].forEach(k => {
+        const btn = document.getElementById('editionBtn' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (btn) {
+          if (CART_STATE.edition === k) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      });
+
+      const colorMap = { matcha: 'colorBtnMatcha', oatmilk: 'colorBtnOatmilk', lavender: 'colorBtnLavender', charcoal: 'colorBtnCharcoal' };
+      Object.keys(colorMap).forEach(k => {
+        const dot = document.getElementById(colorMap[k]);
+        if (dot) {
+          if (CART_STATE.colorKey === k) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        }
+      });
+
+      const thumb = document.getElementById('cartBottleThumb');
+      if (thumb) thumb.src = CART_STATE.colorImg;
+
+      const titleEl = document.getElementById('cartProductTitle');
+      if (titleEl) titleEl.textContent = 'HydroChamber 750ml (' + EDITION_PRICES[CART_STATE.edition].name + ')';
+
+      const colorLbl = document.getElementById('cartColorLabel');
+      if (colorLbl) colorLbl.textContent = 'Color: ' + CART_STATE.colorName;
+
+      const bottleQtyEl = document.getElementById('cartBottleQty');
+      if (bottleQtyEl) bottleQtyEl.textContent = CART_STATE.bottleQty;
+
+      const podsQtyEl = document.getElementById('cartPodsQty');
+      if (podsQtyEl) podsQtyEl.textContent = CART_STATE.podsQty;
+
+      const lidQtyEl = document.getElementById('cartLidQty');
+      if (lidQtyEl) lidQtyEl.textContent = CART_STATE.lidQty;
+
+      const bottleUnitPrice = EDITION_PRICES[CART_STATE.edition].price;
+      const bottleTotal = bottleUnitPrice * CART_STATE.bottleQty;
+      const podsTotal = 169 * CART_STATE.podsQty;
+      const lidTotal = 220 * CART_STATE.lidQty;
+      const grandTotal = bottleTotal + podsTotal + lidTotal;
+
+      const linePriceEl = document.getElementById('cartBottleLinePrice');
+      if (linePriceEl) linePriceEl.textContent = '฿' + bottleTotal.toLocaleString();
+
+      const subtotalEl = document.getElementById('summarySubtotal');
+      if (subtotalEl) subtotalEl.textContent = '฿' + grandTotal.toLocaleString();
+
+      const totalEl = document.getElementById('summaryGrandTotal');
+      if (totalEl) totalEl.textContent = '฿' + grandTotal.toLocaleString();
+
+      const btnPriceEl = document.getElementById('btnSubmitPrice');
+      if (btnPriceEl) btnPriceEl.textContent = '฿' + grandTotal.toLocaleString();
+
+      const totalItemCount = CART_STATE.bottleQty + CART_STATE.podsQty + CART_STATE.lidQty;
+      const badge = document.getElementById('cartBadgeCount');
+      if (badge) badge.textContent = totalItemCount;
+    }
+
+    function submitSimulatedOrder() {
+      const orderRef = '#HC-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const grandTotal = (EDITION_PRICES[CART_STATE.edition].price * CART_STATE.bottleQty) + (169 * CART_STATE.podsQty) + (220 * CART_STATE.lidQty);
+
+      document.getElementById('receiptOrderId').textContent = orderRef;
+      document.getElementById('receiptItemName').textContent = CART_STATE.bottleQty + 'x ' + EDITION_PRICES[CART_STATE.edition].name;
+      document.getElementById('receiptItemColor').textContent = CART_STATE.colorName;
+      document.getElementById('receiptItemEngraving').textContent = CART_STATE.engravingText ? CART_STATE.engravingText.toUpperCase() : 'None (Plain SUS304)';
+
+      const addonsRow = document.getElementById('receiptAddonsRow');
+      const addonsText = [];
+      if (CART_STATE.podsQty > 0) addonsText.push(CART_STATE.podsQty + 'x Focus Pods (10x)');
+      if (CART_STATE.lidQty > 0) addonsText.push(CART_STATE.lidQty + 'x Spare MagSafe Lid');
+
+      if (addonsText.length > 0) {
+        addonsRow.style.display = 'flex';
+        document.getElementById('receiptItemAddons').textContent = addonsText.join(', ');
+      } else {
+        addonsRow.style.display = 'none';
+      }
+
+      const payMethodMap = { promptpay: 'PromptPay QR (Simulated)', card: 'Credit Card (Simulated)', truemoney: 'TrueMoney Wallet (Simulated)' };
+      document.getElementById('receiptPayMethod').textContent = payMethodMap[CART_STATE.paymentMethod] || 'Simulated';
+      document.getElementById('receiptTotalAmount').textContent = '฿' + grandTotal.toLocaleString();
+
+      document.getElementById('cartFormView').style.display = 'none';
+      document.getElementById('cartReceiptView').style.display = 'block';
+    }
+
+    function closeReceiptAndReset() {
+      closeAllDrawers();
+      document.getElementById('cartFormView').style.display = 'block';
+      document.getElementById('cartReceiptView').style.display = 'none';
     }
 
     // --- HYDROBOT CLIENT-SIDE AI ENGINE ---
@@ -1607,9 +2226,9 @@
       if (q.includes('add to cart') || q.includes('buy now') || q.includes('ใส่ตะกร้า') || q.includes('สั่งซื้อ') || q.includes('ซื้อเลย')) {
         chatContext.lastIntent = 'cart_action';
         return {
-          text: "Adding HydroChamber Student Edition (฿590) directly to your bag!",
-          actionHTML: `<button class="chat-chip" onclick="openProposalModal()">View Product Pricing</button>`,
-          trigger: () => { openProposalModal(); }
+          text: "Opening HydroChamber Bag & Checkout (Student Edition ฿590 preselected)!",
+          actionHTML: `<button class="chat-chip" onclick="openCartModal('student')">Open Bag &amp; Checkout</button>`,
+          trigger: () => { openCartModal('student'); }
         };
       }
 
@@ -1623,7 +2242,7 @@
             text: "I'm <strong>HydroBot</strong>, your personal HydroChamber assistant! Here is what I can do for you:<br>• <strong>Student Discount:</strong> Guide you to unlock the ฿590 SheerID rate<br>• <strong>Laser Engraving:</strong> Explain free custom name etching (up to 16 chars)<br>• <strong>MagSafe Stand:</strong> Explain the 12N friction hinge mechanics & phone compatibility<br>• <strong>Color Switcher:</strong> Switch bottle color previews live on your screen<br>• <strong>Tech Specs:</strong> Provide Thai FDA, SUS304 steel, leakproof, and thermal details<br>• <strong>Cart & Ordering:</strong> Direct you to checkout with PromptPay QR / Cards",
             actionHTML: `
               <div class="chat-quick-chips">
-                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="openCartModal('student')">Order Student ฿590</button>
                 <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
                 <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
                 <button class="chat-chip" onclick="sendQuickChat('Color Matcha Sage')">Switch Colors</button>
@@ -1640,7 +2259,7 @@
             text: "<strong>HydroChamber</strong> is a phygital smart drinkware platform designed for students and active professionals, combining 3 daily objects into one:<br>1. <strong>750ml SUS304 Thermal Bottle:</strong> 24hr icy cold insulation<br>2. <strong>Articulating MagSafe Stand:</strong> 12N magnetic ring lid holding any phone at 15°-90°<br>3. <strong>Passive NFC Smart Base:</strong> Instant 1-tap hydration logging without an app<br>Plus permanent industrial laser name engraving included free with every order!",
             actionHTML: `
               <div class="chat-quick-chips">
-                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="openCartModal('student')">Order Student ฿590</button>
                 <button class="chat-chip" onclick="sendQuickChat('MagSafe Specs')">MagSafe Stand</button>
                 <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
               </div>
@@ -1655,11 +2274,12 @@
             text: "Ordering HydroChamber takes under 60 seconds:<br>1. <strong>Pick Colorway:</strong> Matcha Sage, Oat Milk, Lavender Haze, or Slate Charcoal<br>2. <strong>Select Edition:</strong> Student Starter (฿590 via SheerID) or Pro (฿690)<br>3. <strong>Custom Laser Engraving:</strong> Specify your name or student ID (up to 16 chars) free<br>4. <strong>Checkout:</strong> Secure payment via PromptPay QR, Credit/Debit card, or TrueMoney!",
             actionHTML: `
               <div class="chat-quick-chips">
-                <button class="chat-chip" onclick="openProposalModal()">Open Pricing Matrix</button>
-                <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">Student Offer ฿590</button>
+                <button class="chat-chip" onclick="openCartModal('student')">Order Student ฿590</button>
+                <button class="chat-chip" onclick="openCartModal('pro')">Order Pro ฿690</button>
+                <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
               </div>
             `,
-            trigger: () => { openProposalModal(); }
+            trigger: () => { openCartModal('student'); }
           })
         },
         {
@@ -1833,10 +2453,10 @@
           keywords: ['celebrat', 'cat', 'dance', 'room', 'party', 'แมว', 'เต้น', 'ฉลอง', 'easter egg'],
           weight: 3,
           response: () => ({
-            text: "🎉 Step into our <strong>Milestone Celebration Room</strong>! Enjoy happy dancing cats and celebration chimes!",
+            text: "Step into our <strong>Milestone Celebration Room</strong>! Enjoy happy dancing cats and celebration chimes!",
             actionHTML: `
               <div class="chat-quick-chips">
-                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; background:var(--btn-primary-bg); color:var(--btn-primary-text);">🎉 Open Celebration Room</a>
+                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; background:var(--btn-primary-bg); color:var(--btn-primary-text);">Open Celebration Room</a>
                 <button class="chat-chip" onclick="sendQuickChat('Student Offer ฿590')">฿590 Student Offer</button>
               </div>
             `
@@ -1847,10 +2467,10 @@
           keywords: ['thank', 'thx', 'cool', 'awesome', 'great', 'nice', 'ok', 'bye', 'ขอบคุณ', 'ขอบใจ', 'ดีมาก', 'เจ๋ง', 'เยี่ยม'],
           weight: 2,
           response: () => ({
-            text: "You're very welcome! Tap below to explore our pricing or check out our special Celebration Room! 🎉🐱",
+            text: "You're very welcome! Tap below to explore our pricing or check out our special Celebration Room!",
             actionHTML: `
               <div class="chat-quick-chips">
-                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; border-color:#F59E0B;">🎉 Celebration Room</a>
+                <a href="celebrate.html" class="chat-chip" style="text-decoration:none; border-color:#F59E0B;">Celebration Room</a>
                 <button class="chat-chip" onclick="openProposalModal()">Pricing Matrix</button>
                 <button class="chat-chip" onclick="sendQuickChat('Custom Laser Engraving')">Laser Engraving</button>
               </div>
@@ -1904,6 +2524,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('hero').classList.add('visible');
       initTheme();
+      if (typeof updateCartUI === 'function') updateCartUI();
     });
   </script>
 </body>
